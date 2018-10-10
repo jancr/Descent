@@ -15,18 +15,19 @@ namespace DescentCoreCore.UnitTest {
     public class DescentCore_AttackResolver {
 
         public static Hero GetLeoric() {
-            var defence = new List<DefenceDie>() { new GreyDie() };
+            var defence = new DefenceDice(new GreyDie());
             var leoric = new Hero("Leoric", 4, 8, 5, defence, 1, 5, 3, 2, 0);
 
             // make item
-            AttackDie[] attack = { new BlueDie(), new PowerDie(), new YellowDie() };
+            // var attack = new AttackDice{ new BlueDie(), new PowerDie(), new YellowDie() };
+            var attack = new AttackDice("blue", "power", "yellow");
             var abillities = new Abillity[] { new Abillity(3, AbillityType.Damage, 2),
                                               new Abillity(1, AbillityType.Damage, 1),
                                               new Abillity(2, AbillityType.Pierce, 1),
                                               new Abillity(2, AbillityType.Range, 1) };
             var catagories = new ItemCatagory[] { ItemCatagory.Staff, ItemCatagory.Magic };
 
-            WeoponItem fancyStaff = new WeoponItem(attack, HandCatagory.RangeWeopon, abillities, catagories, 2);
+            WeoponItem fancyStaff = new WeoponItem("fancy Staff", attack, HandCatagory.RangeWeopon, abillities, catagories, 2);
             leoric.Equip(fancyStaff);
 
             return leoric;
@@ -35,8 +36,8 @@ namespace DescentCoreCore.UnitTest {
         public static Monster GetWhiteGoblinActII() {
             // act 2 goblins
             var whiteGoblin = new Monster("White Goblin II", 5, 4, 
-                    new List<AttackDie> { new BlueDie(), new YellowDie() },
-                    new List<DefenceDie> { new GreyDie() });
+                    new AttackDice(new BlueDie(), new YellowDie()),
+                    new DefenceDice(new GreyDie()));
             whiteGoblin.Abillities.Add(new Abillity(2, AbillityType.Range, 1));
             whiteGoblin.Abillities.Add(new Abillity(2, AbillityType.Damage, 1));
                     
@@ -78,14 +79,19 @@ namespace DescentCoreCore.UnitTest {
         }
 
         [Theory]
-        [MemberData(nameof(GetResolveSurgesData), parameters: 7)]
+        // [MemberData(nameof(GetResolveSurgesData), parameters: 1)]
+        // [MemberData(nameof(GetResolveSurgesData), parameters: 6)]
+        [MemberData(nameof(GetResolveSurgesData), parameters: 12)]
         public void ResolveSurges(AttackDieFace attackRoll, DefenceDieFace defenceRoll, 
                                int range, int expectedDamage) {
             Hero leoric = GetLeoric();
             // whiteGoblin = this.GetWhiteGoblinActII();
-            var ar = new AttackResolver(leoric.Abillities);
-            AttackDieFace attack = ar.ResolveSurges(attackRoll, defenceRoll, range);
-            Assert.Equal(attack.Power, expectedDamage);
+            // var ar = new AttackResolver(leoric.Abillities);
+            // AttackDieFace attack = ar.ResolveSurges(attackRoll, defenceRoll, range);
+            var dice = new DiceOutcome(attackRoll, defenceRoll);
+            leoric.ResolveSurges(dice, range);
+            Console.WriteLine($"Damage: {dice.Damage}, Expected {expectedDamage}");
+            Assert.Equal(dice.Damage, expectedDamage);
 
         }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using DescentCore.Dice;
 using DescentCore.Abillites;
+using DescentCore.Exceptions;
 
 namespace DescentCore.Equipment {
     //////////////////////////////////////////////////////////////////////
@@ -22,16 +23,6 @@ namespace DescentCore.Equipment {
     }
     
     //////////////////////////////////////////////////////////////////////
-    // Exceptions
-    //////////////////////////////////////////////////////////////////////
-    public class EquipmentException: Exception { 
-        public EquipmentException() { }
-        public EquipmentException(string message) : base(message) { }
-        public EquipmentException(string message, Exception inner) : base(message, inner) { }
-    }
-
-
-    //////////////////////////////////////////////////////////////////////
     // EquipedItems
     //////////////////////////////////////////////////////////////////////
     public class EquipedItems {
@@ -40,6 +31,29 @@ namespace DescentCore.Equipment {
         public ShieldItem OffHand { get; private set; } = null;
         public ArmorItem Armor { get; private set; } = null;
         public List<TrinketItem> Trinket { get; private set; }
+
+        public List<Abillity> GetAbillities() {
+            var gearAbillities = new List<Abillity>();
+            foreach(Item item in this.IterItems()) {
+                // Console.WriteLine($"Item: {item.Name}");
+                foreach(Abillity itemAbillity in item.Abillities) {
+                    // Console.WriteLine($" - Abillity: {itemAbillity}");
+                    gearAbillities.Add(itemAbillity);
+                }
+            }
+            return gearAbillities;
+        }
+
+        public IEnumerable<Item> IterItems() {
+            if (this.MainHand != null) 
+                yield return this.MainHand;
+            if (this.OffHand != null) 
+                yield return this.OffHand;
+            if (this.Armor != null) 
+                yield return this.Armor;
+            foreach(TrinketItem trinket in Trinket)
+                yield return trinket;
+        }
 
         public EquipedItems() {
             this.Trinket = new List<TrinketItem>();
@@ -120,9 +134,10 @@ namespace DescentCore.Equipment {
 
         public ItemCatagory[] Catagories { get; private set; }
         public EquipmentType Type { get; private set; }
+        public string Name { get; private set; }
 
-
-        public Item(EquipmentType type, Abillity[] abillities, ItemCatagory[] catagories) {
+        public Item(string name, EquipmentType type, Abillity[] abillities, ItemCatagory[] catagories) {
+            this.Name = name;
             this.Type = type;
             this.Abillities = abillities;
             this.Catagories = catagories;
@@ -130,20 +145,21 @@ namespace DescentCore.Equipment {
     }
 
     public class EvilArtefactItem : Item {
-        public EvilArtefactItem(Abillity[] abillities, ItemCatagory[] catagories) 
-            : base(EquipmentType.Evil, abillities, catagories) { }
+        public EvilArtefactItem(string name, Abillity[] abillities, ItemCatagory[] catagories) 
+            : base(name, EquipmentType.Evil, abillities, catagories) { }
     }
 
     public class TrinketItem : Item {
-        public TrinketItem(Abillity[] abillities) : base(EquipmentType.Trinket, abillities, 
-                new ItemCatagory[1] { ItemCatagory.Trinket }) { }
+        public TrinketItem(string name, Abillity[] abillities) : base(name, EquipmentType.Trinket,
+                           abillities, new ItemCatagory[1] { ItemCatagory.Trinket }) { }
     }
 
     public class ArmorItem : Item {
-        public DefenceDie[] DefenceDice { get; private set; }
+        public DefenceDice DefenceDice { get; private set; }
 
-        public ArmorItem(DefenceDie[] defence, ItemCatagory armorType, Abillity[] abillities)
-                : base (EquipmentType.Armor, abillities, new ItemCatagory[1] { armorType }) {
+        public ArmorItem(string name, DefenceDice defence, ItemCatagory armorType, 
+                         Abillity[] abillities) : base (name, EquipmentType.Armor, 
+                             abillities, new ItemCatagory[1] { armorType }) {
             this.DefenceDice = defence;
         }
     }
@@ -155,24 +171,25 @@ namespace DescentCore.Equipment {
         public int Hands { get; private set; }
         public HandCatagory HandType { get; private set; }
 
-        public HandItem(Abillity[] abillities, ItemCatagory[] catagories, 
-                HandCatagory handType, int hands) : base(EquipmentType.Hand, abillities, catagories) {
+        public HandItem(string name, Abillity[] abillities, ItemCatagory[] catagories, 
+                HandCatagory handType, int hands) : base(name, EquipmentType.Hand, abillities, 
+                    catagories) {
             this.HandType = handType;
             this.Hands = 1;
         }
     }
 
     public class ShieldItem : HandItem {
-        public ShieldItem(Abillity[] abillities) : base(abillities, 
+        public ShieldItem(string name, Abillity[] abillities) : base(name, abillities, 
                 new ItemCatagory[1] { ItemCatagory.Shield }, HandCatagory.Shield, 1) { }
     }
 
     public class WeoponItem : HandItem {
-        public AttackDie[] AttackDice { get; private set; }
+        public AttackDice AttackDice { get; private set; }
 
-        public WeoponItem(AttackDie[] attack, HandCatagory weoponType, Abillity[] abillities, 
-                ItemCatagory[] catagories, int hands) 
-                : base(abillities, catagories, weoponType, hands) {
+        public WeoponItem(string name, AttackDice attack, HandCatagory weoponType, 
+                Abillity[] abillities, ItemCatagory[] catagories, int hands) 
+                : base(name, abillities, catagories, weoponType, hands) {
             this.AttackDice = attack;
         }
     }

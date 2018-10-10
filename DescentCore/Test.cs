@@ -18,26 +18,26 @@ namespace DescentCore.Test {
 
         static void TestUnits() {
             // act 2 goblins
-            var whiteGoblin = new Monster("White Goblin II", 5, 4, 
-                    new List<AttackDie> { new BlueDie(), new YellowDie() },
-                    new List<DefenceDie> { new GreyDie() });
-            whiteGoblin.Abillities.Add(new Abillity(2, AbillityType.Range, 1));
-            whiteGoblin.Abillities.Add(new Abillity(2, AbillityType.Damage, 1));
-                    
-            var redGoblin = new Monster("Red Goblin II", 5, 6, 
-                    new List<AttackDie> { new BlueDie(), new YellowDie(), new YellowDie() },
-                    new List<DefenceDie> { new GreyDie() });
-            redGoblin.Abillities.Add(new Abillity(3, AbillityType.Range, 1));
-            redGoblin.Abillities.Add(new Abillity(2, AbillityType.Damage, 1));
+            // var whiteGoblin = new Monster("White Goblin II", 5, 4, 
+                    // new AttackDice { new BlueDie(), new YellowDie() },
+                    // new DefenceDice { new GreyDie() });
+            // whiteGoblin.Abillities.Add(new Abillity(2, AbillityType.Range, 1));
+            // whiteGoblin.Abillities.Add(new Abillity(2, AbillityType.Damage, 1));
+                    // 
+            // var redGoblin = new Monster("Red Goblin II", 5, 6, 
+                    // new AttackDice { new BlueDie(), new YellowDie(), new YellowDie() },
+                    // new DfenceDice { new GreyDie() });
+            // redGoblin.Abillities.Add(new Abillity(3, AbillityType.Range, 1));
+            // redGoblin.Abillities.Add(new Abillity(2, AbillityType.Damage, 1));
 
             
             // TODO 
             //   1. make Hero
-            Hero leoric = GetHero();
+            // Hero leoric = GetHero();
             //   2. hero attack monster
             //      2a. he needs items for this to work
             //
-            int damage = leoric.Attack(whiteGoblin, 3);
+            // int damage = leoric.Attack(whiteGoblin, 3);
             // var ar = new AttackResolver(leoric.AttackDice, whiteGoblin.DefenceDice, 
                                         // leoric.Abillities);
             // var leoricAttack = new AttackDieFace(5, 2, 5);
@@ -58,20 +58,23 @@ namespace DescentCore.Test {
             //   20. Make Xamarian App
         }
 
-        public static Hero GetHero() {
-            var defence = new List<DefenceDie>() { new GreyDie() };
-            var leoric = new Hero("Leoric", 4, 8, 5, defence, 1, 5, 3, 2, 0);
-
-            // make item
-            AttackDie[] attack = { new BlueDie(), new PowerDie(), new YellowDie() };
-            var abillities = new Abillity[] { new Abillity(3, AbillityType.Damage, 2),
-                                              new Abillity(2, AbillityType.Range, 1) };
-            var catagories = new ItemCatagory[] { ItemCatagory.Staff, ItemCatagory.Magic };
-
-            WeoponItem fancyStaff = new WeoponItem(attack, HandCatagory.RangeWeopon, abillities, catagories, 2);
-            leoric.Equip(fancyStaff);
-
-            return leoric;
-        }
+        // public static Hero GetHero() {
+            // var defence = new List<DefenceDie>() { new GreyDie() };
+            // var leoric = new Hero("Leoric", 4, 8, 5, defence, 1, 5, 3, 2, 0);
+// 
+            // // make item
+            // var attack = AttackDice();
+            // attack.Add(new BlueDie());
+            // attack.Add(new PowerDie());
+            // attack.Add(new YellowDie());
+            // var abillities = new Abillity[] { new Abillity(3, AbillityType.Damage, 2),
+                                              // new Abillity(2, AbillityType.Range, 1) };
+            // var catagories = new ItemCatagory[] { ItemCatagory.Staff, ItemCatagory.Magic };
+// 
+            // WeoponItem fancyStaff = new WeoponItem("Fancy Staff", attack, HandCatagory.RangeWeopon, abillities, catagories, 2);
+            // leoric.Equip(fancyStaff);
+// 
+            // return leoric;
+        // }
     }
 }

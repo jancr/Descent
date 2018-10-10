@@ -1,4 +1,10 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+using DescentCore.Abillites;
+using DescentCore.Exceptions;
 
 namespace DescentCore.Dice {
     ////////////////////////////////////////
@@ -36,7 +42,12 @@ namespace DescentCore.Dice {
         }
         public bool Hit { 
             get { return this._hit; }
-            set { this._hit = value; }
+            set {
+                this._hit = value; 
+                if (!value) {
+                    this._power = this._surge = this._range = 0;
+                }
+            }
         }
 
         // methods
@@ -112,8 +123,9 @@ namespace DescentCore.Dice {
         }
     }
     
+
     ////////////////////////////////////////
-    // Dice Class and subclasses
+    // die class and subclasses
     ////////////////////////////////////////
     public abstract class Die {
         protected Random rand = new Random();
@@ -126,9 +138,6 @@ namespace DescentCore.Dice {
 
     public abstract class AttackDie: Die {
         public AttackDieFace[] faces;
-        // public DefendDie() {
-            // faces = new DefenceDieFace[6];
-        // }
 
         public AttackDieFace Roll() {
             return faces[rand.Next(0, faces.Length)];
@@ -137,9 +146,6 @@ namespace DescentCore.Dice {
 
     public abstract class DefenceDie: Die {
         public DefenceDieFace[] faces;
-        // public DefendDie() {
-            // faces = new DefenceDieFace[6];
-        // }
 
         public DefenceDieFace Roll() {
             return faces[rand.Next(0, faces.Length)];
@@ -225,6 +231,140 @@ namespace DescentCore.Dice {
                 new DefenceDieFace(0), new DefenceDieFace(2), new DefenceDieFace(2),
                 new DefenceDieFace(2), new DefenceDieFace(3), new DefenceDieFace(4)
             };
+        }
+    }
+
+    ////////////////////////////////////////
+    // Dice class and subclasses
+    // Dice are classes of List<Die>
+    ////////////////////////////////////////
+    public class AttackDice : List<AttackDie> {
+        public AttackDice() { }
+
+        public AttackDice(params string[] names) {
+            foreach (string name in names) {
+                switch (name) {
+                    case "blue":
+                        this.Add(new BlueDie());
+                        break;
+                    case "power":
+                        this.Add(new PowerDie());
+                        break;
+                    case "yellow":
+                        this.Add(new YellowDie());
+                        break;
+                    case "green":
+                        this.Add(new GreenDie());
+                        break;
+                    default:
+                        throw new DieException("Invalid Die");
+                }
+            }
+        }
+
+        public AttackDice(params AttackDie[] dice) {
+            foreach (var die in dice) {
+                this.Add(die);
+            }
+        }
+
+        public AttackDieFace Roll() {
+            var total = new AttackDieFace();
+            this.ForEach(die => total += die.Roll());
+            return total;
+        }
+    }
+
+    public class DefenceDice : List<DefenceDie> {
+        // private static Dictionary<string, DefenceDie> 
+            // nameMapper = new Dictionary<string, DefenceDie>  {
+            // { "brown", BrownDie }, { "grey", GrenDie }, { "black". BlackDie }
+        // };
+        public DefenceDice() { }
+        public DefenceDice(params string[] names) {
+            foreach (string name in names) {
+                switch (name) {
+                    case "brown":
+                        this.Add(new BrownDie());
+                        break;
+                    case "grey":
+                        this.Add(new GreyDie());
+                        break;
+                    case "black":
+                        this.Add(new BlackDie());
+                        break;
+                    default:
+                        throw new DieException("Invalid Die");
+                }
+            }
+        }
+
+        public DefenceDice(params DefenceDie[] dice) {
+            foreach (var die in dice) {
+                this.Add(die);
+            }
+        }
+
+        public DefenceDieFace Roll() {
+            var total = new DefenceDieFace();
+            this.ForEach(die => total += die.Roll());
+            return total;
+        }
+    }
+
+    public class Dice {
+        public AttackDice Attack  { get; private set; }
+        public DefenceDice Defence { get; private set; }
+        public Dice(AttackDice attackDice, DefenceDice defenceDice) {
+            this.Attack = attackDice;
+            this.Defence = defenceDice;
+        }
+
+        public DiceOutcome Roll() {
+            return new DiceOutcome(this.RollAttack(), this.RollDefence());
+        }
+
+        public AttackDieFace RollAttack() { return this.Attack.Roll(); }
+        public DefenceDieFace RollDefence() { return this.Defence.Roll(); }
+    }
+    
+    public class DiceOutcome : DieFace {
+        public AttackDieFace Attack { get; set; }
+        public DefenceDieFace Defence { get; set; }
+        public int Power { get {return this.Attack.Power;} set {this.Attack.Power = value;} }
+        public int Surge { get {return this.Attack.Surge;} set {this.Attack.Surge = value;} }
+        public int Range { get {return this.Attack.Range;} set {this.Attack.Range = value;} }
+        public bool Hit { get {return this.Attack.Hit;} set {this.Attack.Hit = value;} }
+        public int Shield { get {return this.Defence.Shield;} 
+                            set {this.Defence.Shield = value;} }
+        public int Damage { get { return Math.Max(this.Power - this.Shield, 0); } }
+
+        public DiceOutcome(AttackDieFace attack, DefenceDieFace defence) {
+            this.Attack = attack;
+            this.Defence = defence;
+        }
+
+        public void UseAbillity(Abillity abillity) {
+            if (abillity.SurgePrice > this.Surge) {
+                throw new AbillityException("Not Enugh Surges to Use Abillity");
+            }
+            this.Surge -= abillity.SurgePrice;
+            abillity.Used = true;
+            switch(abillity.Type) {
+                case AbillityType.Damage:
+                    this.Power += abillity.Val;
+                    break;
+                case AbillityType.Pierce:
+                    this.Shield -= abillity.Val;
+                    break;
+                case AbillityType.Range:
+                    this.Range += abillity.Val;
+                    break;
+            }
+        }
+
+        public DiceOutcome Clone() {
+            return new DiceOutcome(this.Attack.Clone(), this.Defence.Clone());
         }
     }
 }
