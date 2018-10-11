@@ -6,7 +6,6 @@ using System.Linq;
 using DescentCore.Dice;
 using DescentCore.Equipment;
 using DescentCore.Abillites;
-using DescentCore.Attack;
 
 
 namespace DescentCore.Units {
@@ -80,9 +79,6 @@ namespace DescentCore.Units {
             if (!dice.Hit) {
                 return 0;
             }
-            // var dice = new DiceOutcome(attackRoll.Clone(), defenceRoll.Clone());
-            Console.WriteLine("--------------------");
-            Console.WriteLine($"step 0\nAttack: {dice.Attack}\nDefence: {dice.Defence}\n");
 
             // 1. apply all "free abillities"
             foreach (Abillity abillity in this.Abillities) {
@@ -90,27 +86,23 @@ namespace DescentCore.Units {
                     dice.UseAbillity(abillity);
                 }
             }
-            Console.WriteLine($"step 1\nAttack: {dice.Attack}\nDefence: {dice.Defence}\n");
             
             // 2. fix range if to short
             if (dice.Range < range) {
                 this.IncreaseRange(dice, range);
+                if (dice.Range < range) {
+                    return 0;
+                }
             }
-            Console.WriteLine($"step 2\nAttack: {dice.Attack}\nDefence: {dice.Defence}\n");
             
             // 3. sort based on damage / surge
             this.UseSurges(dice);
-
-            Console.WriteLine($"step 3\nAttack: {dice.Attack}\nDefence: {dice.Defence}\n");
-            Console.WriteLine($"Final: {dice.Damage}");
-            return dice.Damage;
+            return dice.GetDamage(range);
         }
 
         protected void UseSurges(DiceOutcome dice) {
-            Console.WriteLine($"Abillities Count {this.Abillities}");
             while (dice.Surge > 0) {
                 // Does Max raise an error if the list is empty or return zero???
-                Console.WriteLine(" -- test ==");
                 var rankedAbillities = 
                         from a in this.Abillities 
                         where !a.Used && dice.Surge >= a.SurgePrice
@@ -124,21 +116,17 @@ namespace DescentCore.Units {
                     break;
                 } else {
                     Abillity best = rankedAbillities.First();
-                    Console.WriteLine($"Best abillity: {best}");
-                    Console.WriteLine($"attack before {dice.Attack} - Defence Before {dice.Defence}");
                     dice.UseAbillity(best);
-                    Console.WriteLine($"attack after {dice.Attack} - Defence after {dice.Defence}");
                 }
             }
-            Console.WriteLine($"returning {dice.Attack} and {dice.Defence}");
-            // return (attack, defence);
         }
 
         protected void IncreaseRange(DiceOutcome dice, int range) {
-            while (dice.Surge > 0 && range < dice.Range) {
-                var rangeAbillities = from a in this.Abillities 
-                                    where (!a.Used && a.Type == AbillityType.Range)
-                                    select a;
+            while (dice.Surge > 0 && dice.Range < range) {
+                var rangeAbillities = (from a in this.Abillities 
+                                    where (!a.Used && a.Type == AbillityType.Range &&
+                                            a.SurgePrice <= dice.Surge)
+                                    select a).ToList();
                 Abillity perfect = (from a in rangeAbillities  
                                     where (a.Val + dice.Range >= range)
                                     orderby a.SurgePrice 

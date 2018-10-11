@@ -8,7 +8,6 @@ using DescentCore.Units;
 using DescentCore.Dice;
 using DescentCore.Abillites;
 using DescentCore.Equipment;
-using DescentCore.Attack;
 
 namespace DescentCoreCore.UnitTest {
     // high level test, other test should have been written first!!!
@@ -27,7 +26,7 @@ namespace DescentCoreCore.UnitTest {
                                               new Abillity(2, AbillityType.Range, 1) };
             var catagories = new ItemCatagory[] { ItemCatagory.Staff, ItemCatagory.Magic };
 
-            WeoponItem fancyStaff = new WeoponItem("fancy Staff", attack, HandCatagory.RangeWeopon, abillities, catagories, 2);
+            WeoponItem fancyStaff = new WeoponItem("Fancy Staff", attack, HandCatagory.RangeWeopon, abillities, catagories, 2);
             leoric.Equip(fancyStaff);
 
             return leoric;
@@ -41,11 +40,6 @@ namespace DescentCoreCore.UnitTest {
             whiteGoblin.Abillities.Add(new Abillity(2, AbillityType.Range, 1));
             whiteGoblin.Abillities.Add(new Abillity(2, AbillityType.Damage, 1));
                     
-            // var redGoblin = new Monster("Red Goblin II", 5, 6, 
-                    // new List<AttackDie> { new BlueDie(), new YellowDie(), new YellowDie() },
-                    // new List<DefenceDie> { new GreyDie() });
-            // redGoblin.Abillities.Add(new Abillity(3, AbillityType.Range, 1));
-            // redGoblin.Abillities.Add(new Abillity(2, AbillityType.Damage, 1));
             return whiteGoblin;
         }
 
@@ -57,22 +51,24 @@ namespace DescentCoreCore.UnitTest {
 
                 // shield tests
                 new object[] { new AttackDieFace(5, 0, 5), new DefenceDieFace(2), 3, 3 },
-                new object[] { new AttackDieFace(7, 0, 5), new DefenceDieFace(2), 3, 5},
-                // range tests
-                new object[] { new AttackDieFace(5, 0, 4), new DefenceDieFace(0), 6, 0},
-                new object[] { new AttackDieFace(5, 0, 6), new DefenceDieFace(0), 6, 5},
-                new object[] { new AttackDieFace(5, 0, 8), new DefenceDieFace(0), 6, 5},
-                // surges
-                //  - pierce
-                new object[] { new AttackDieFace(5, 1, 5), new DefenceDieFace(1), 3, 5},
-                new object[] { new AttackDieFace(5, 1, 5), new DefenceDieFace(2), 3, 5},
+                new object[] { new AttackDieFace(7, 0, 5), new DefenceDieFace(2), 3, 5 },
+                // // range tests
+                new object[] { new AttackDieFace(5, 0, 4), new DefenceDieFace(0), 6, 0 },
+                new object[] { new AttackDieFace(5, 0, 6), new DefenceDieFace(0), 6, 5 },
+                new object[] { new AttackDieFace(5, 0, 8), new DefenceDieFace(0), 6, 5 },
+                // // surges
+                // //  - pierce
+                new object[] { new AttackDieFace(5, 1, 5), new DefenceDieFace(1), 3, 5 },
+                new object[] { new AttackDieFace(5, 1, 5), new DefenceDieFace(2), 3, 5 },
                 //  - range
-                new object[] { new AttackDieFace(5, 1, 4), new DefenceDieFace(0), 6, 5},
+                new object[] { new AttackDieFace(5, 1, 4), new DefenceDieFace(0), 6, 5 },
                 //  - combo
-                new object[] { new AttackDieFace(5, 3, 5), new DefenceDieFace(2), 3, 8},
-                new object[] { new AttackDieFace(5, 3, 5), new DefenceDieFace(0), 3, 9},
-                new object[] { new AttackDieFace(5, 3, 5), new DefenceDieFace(2), 7, 6},
-                new object[] { new AttackDieFace(5, 2, 5), new DefenceDieFace(2), 7, 5},
+                new object[] { new AttackDieFace(5, 3, 5), new DefenceDieFace(2), 3, 8 },
+                new object[] { new AttackDieFace(5, 3, 5), new DefenceDieFace(0), 3, 9 },
+
+                // Thise also fail, but I only run one test to make it simpler
+                new object[] { new AttackDieFace(5, 3, 5), new DefenceDieFace(2), 7, 6 },
+                new object[] { new AttackDieFace(5, 2, 5), new DefenceDieFace(2), 7, 5 },
             };
 
             return allData.Take(numTests);
@@ -85,14 +81,23 @@ namespace DescentCoreCore.UnitTest {
         public void ResolveSurges(AttackDieFace attackRoll, DefenceDieFace defenceRoll, 
                                int range, int expectedDamage) {
             Hero leoric = GetLeoric();
+
             // whiteGoblin = this.GetWhiteGoblinActII();
             // var ar = new AttackResolver(leoric.Abillities);
             // AttackDieFace attack = ar.ResolveSurges(attackRoll, defenceRoll, range);
             var dice = new DiceOutcome(attackRoll, defenceRoll);
-            leoric.ResolveSurges(dice, range);
-            Console.WriteLine($"Damage: {dice.Damage}, Expected {expectedDamage}");
-            Assert.Equal(dice.Damage, expectedDamage);
+            int damage = leoric.ResolveSurges(dice, range);
+            Assert.Equal(expectedDamage, damage);
 
+            if (expectedDamage != 0) {
+                dice = new DiceOutcome(attackRoll, defenceRoll);
+                TrinketItem damageTrinket = new TrinketItem("Free Damage", 
+                        new Abillity[] { new Abillity(1, AbillityType.Damage, 0) });
+                leoric.Equip(damageTrinket);
+
+                damage = leoric.ResolveSurges(dice, range);
+                Assert.Equal(expectedDamage + 1, damage);
+            }
         }
 
         // static void TestUnits() {

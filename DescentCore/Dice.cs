@@ -8,6 +8,32 @@ using DescentCore.Exceptions;
 
 namespace DescentCore.Dice {
     ////////////////////////////////////////
+    // Dice Distributions
+    ////////////////////////////////////////
+    // class DiceDistribution
+        // private int Combinations { get; private set; }
+        // private Dictionary<DiceOutcome, int> rolToCount;
+        // private Dictionary<int, DiceOutcome> countToRoll;
+// 
+        // public DiceDistribution(Dice dice) {
+// 
+// 
+            // // exhaust attack space
+            // int attackCombinations =  Math.Power(6, dice.Attack.Count);
+            // for (int i = 0; i < attackCombinations; i++) {
+                // AttackDieFace attack = new AttackDieFace();
+                // for (int j = 0; j < dice.Attack.Count; ++) {
+                    // int index = (i / (Math.Pow(6, j))) % 6
+                    // attack += attackDie[j].faces[index]
+                // }
+            // }
+            // // exhaust defence space
+            // //
+            // // combine
+        // }
+
+    
+    ////////////////////////////////////////
     // DieFace classes
     ////////////////////////////////////////
     abstract public class DieFace { 
@@ -337,11 +363,21 @@ namespace DescentCore.Dice {
         public bool Hit { get {return this.Attack.Hit;} set {this.Attack.Hit = value;} }
         public int Shield { get {return this.Defence.Shield;} 
                             set {this.Defence.Shield = value;} }
-        public int Damage { get { return Math.Max(this.Power - this.Shield, 0); } }
 
         public DiceOutcome(AttackDieFace attack, DefenceDieFace defence) {
             this.Attack = attack;
             this.Defence = defence;
+        }
+
+        public int GetDamage(int range=1) {
+            if (this.Hit && this.Range >= range) {
+                return Math.Max(this.Power - this.Shield, 0);
+            }
+            return 0;
+        }
+
+        public void Mis() {
+            this.Attack = AttackDieFace.Mis();
         }
 
         public void UseAbillity(Abillity abillity) {

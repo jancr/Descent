@@ -13,9 +13,11 @@ namespace DescentCore.Abillites {
     //////////////////////////////////////////////////////////////////////
     public struct AbillityResult {
         public int Damage { get; private set; }
+        public AttackDieFace Attack { get; private set; }
         public DefenceDieFace Defence { get; private set; }
-        public AbillityResult(int damage, int defence) {
+        public AbillityResult(int damage, int attack, int defence) {
             this.Damage = damage;
+            this.Attack = new AttackDieFace(attack);
             this.Defence = new DefenceDieFace(defence);
         }
     }
@@ -42,12 +44,12 @@ namespace DescentCore.Abillites {
             // if so I should be a boolian class like EquipedItems!!!
             // and this should be a switch statment
             if (this.Type == AbillityType.Damage) {
-                return new AbillityResult(this.Val, defence.Shield);
+                return new AbillityResult(this.Val, this.Val, defence.Shield);
             } else if (this.Type == AbillityType.Pierce) {
                 int pierce = Math.Min(this.Val, defence.Shield);
-                return new AbillityResult(pierce, defence.Shield - pierce);
+                return new AbillityResult(pierce, 0, defence.Shield - pierce);
             }
-            return new AbillityResult(0, defence.Shield);
+            return new AbillityResult(0, 0, defence.Shield);
             // TODO support other effects, such as tab for surges
         }
 
@@ -56,7 +58,7 @@ namespace DescentCore.Abillites {
         }
 
         public override string ToString() {
-            return $"{this.Val} {this.Type}, Cost: {this.SurgePrice} Surges and {this.Stamina} Stamina";
+            return $"{this.Val} {this.Type}, Cost: {this.SurgePrice} Surges and {this.StaminaPrice} Stamina";
         }
     }
 }
