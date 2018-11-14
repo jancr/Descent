@@ -190,7 +190,7 @@ namespace DescentCore.Units {
         public int Stamina { get; private set; }
         public int MaxStamina { get; private set; }
         public int XP { get; private set; }
-        private EquipedItems Equipment { get; } = new EquipedItems();
+        public EquipedItems Equipment { get; } = new EquipedItems();
         public override AttackDice AttackDice {
             get { return this.Equipment.MainHand.AttackDice; }
         }
