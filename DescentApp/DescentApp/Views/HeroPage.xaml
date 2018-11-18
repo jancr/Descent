@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DescentApp.ViewModels"
+             x:Class="DescentApp.HeroPage"
+             Title="Hero Setup">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal">
+                <!-- MainHand-->
+                <Label VerticalOptions="Start"
+                       Text="Main Hand" />
+                <Picker VerticalOptions="End"
+                    SelectedIndex="{Binding SelectedIndex}"
+                    ItemsSource="{Binding ItemNames}" >
+                    <Picker.BindingContext>
+                        <local:MainHandItemViewModel />
+                    </Picker.BindingContext>
+                </Picker>
+            </StackLayout>
+
+            <!-- OffHandHand-->
+            <StackLayout Orientation="Horizontal">
+                <Label VerticalOptions="Start"
+                       Text="Off Hand" />
+                <Picker VerticalOptions="End"
+                    SelectedIndex="{Binding SelectedIndex}"
+                    ItemsSource="{Binding ItemNames}" >
+                    <Picker.BindingContext>
+                        <local:OffHandItemViewModel />
+                    </Picker.BindingContext>
+                </Picker>
+            </StackLayout>
+
+                <!-- Armor-->
+            <StackLayout Orientation="Horizontal">
+                <Label VerticalOptions="Start"
+                       Text="Armor" />
+                <Picker VerticalOptions="End"
+                    SelectedIndex="{Binding SelectedIndex}"
+                    ItemsSource="{Binding ItemNames}" >
+                    <Picker.BindingContext>
+                        <local:ArmorItemViewModel />
+                    </Picker.BindingContext>
+                </Picker>
+            </StackLayout>
+
+                <!-- Trinket1--><!--
+            <StackLayout Orientation="Horizontal">
+                <Label VerticalOptions="Start"
+                       Text="Trinket 1" />
+                <Picker VerticalOptions="End"
+                    SelectedIndex="{Binding SelectedIndex}"
+                    ItemsSource="{Binding ItemNames}" >
+                    <Picker.BindingContext>
+                        <local:Trinket1ItemViewModel />
+                    </Picker.BindingContext>
+                </Picker>
+            </StackLayout>
+
+                --><!-- Trinket2--><!--
+            <StackLayout Orientation="Horizontal">
+                <Label VerticalOptions="Start"
+                       Text="Trinket 2" />
+                <Picker VerticalOptions="End"
+                    SelectedIndex="{Binding SelectedIndex}"
+                    ItemsSource="{Binding ItemNames}" >
+                    <Picker.BindingContext>
+                        <local:Trinket2ItemViewModel />
+                    </Picker.BindingContext>
+                </Picker>
+            </StackLayout>-->
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

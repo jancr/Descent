@@ -10,13 +10,10 @@ using Xamarin.Forms.Xaml;
 using DescentApp.ViewModels;
 
 namespace DescentApp {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HeroPage : ContentPage {
-        public HeroViewModel vm;
-
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class HeroPage : ContentPage {
 		public HeroPage () {
             InitializeComponent();
-            this.BindingContext = vm = new HeroViewModel();
 		}
 	}
-}
+}  

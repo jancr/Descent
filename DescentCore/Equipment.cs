@@ -35,7 +35,7 @@ namespace DescentCore.Equipment {
         public List<Abillity> GetAbillities() {
             var gearAbillities = new List<Abillity>();
             foreach(Item item in this.IterItems()) {
-                // Console.WriteLine($"Item: {item.Name}");
+                // Console.WriteLine($"T: {item.Name}");
                 foreach(Abillity itemAbillity in item.Abillities) {
                     // Console.WriteLine($" - Abillity: {itemAbillity}");
                     gearAbillities.Add(itemAbillity);

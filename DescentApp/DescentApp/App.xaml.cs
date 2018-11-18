@@ -1,12 +1,14 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using DescentApp.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace DescentApp {
     public partial class App : Application {
         public App() {
             InitializeComponent();
+            DependencyService.Register<FileDataStore>();
             MainPage = new NavigationPage(new MainPage());
         }
 

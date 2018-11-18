@@ -28,18 +28,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="FightPage.xaml">
+    <EmbeddedResource Update="Views\FightPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="HeroPage.xaml">
+    <EmbeddedResource Update="Views\HeroPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="SetupHeroPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\" />
   </ItemGroup>
 </Project>
