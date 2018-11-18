@@ -105,6 +105,11 @@ namespace DescentApp.Services {
             var catagories = new ItemCatagory[] { ItemCatagory.Staff, ItemCatagory.Magic };
             Abillity[] a;
 
+            a = new Abillity[] { new Abillity(2, AbillityType.Pierce, 1) };
+            WeoponItem whip = new WeoponItem(
+                "9 Tailed Whip", new AttackDice("blue", "power"),
+                HandCatagory.MeleeWeopon, a, new ItemCatagory[] { ItemCatagory.Exotic }, 1);
+
             a = new Abillity[] { new Abillity(2, AbillityType.Pierce, 1),
                                          new Abillity(2, AbillityType.Range, 1) };
             WeoponItem weakStaff = new WeoponItem(
@@ -117,7 +122,7 @@ namespace DescentApp.Services {
                 "Fancy Staff", new AttackDice("blue", "power", "yellow"),
                 HandCatagory.RangeWeopon, a, catagories, 2);
 
-           return new List<WeoponItem> { fancyStaff, weakStaff };
+           return new List<WeoponItem> { whip, fancyStaff, weakStaff };
         }
     }
 }

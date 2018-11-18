@@ -1,24 +1,18 @@
-﻿using System;
+﻿
+// core imports
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
+// 3rd party imports
 using Xamarin.Forms;
 
+// local imports
 using DescentCore.Equipment;
 using DescentCore.Units;
-
-//using System.Diagnostics;
-using System.Runtime.CompilerServices;
-
-using DescentCore.Abillites;
-using DescentCore.Dice;
-using DescentCore.Equipment;
-
 using DescentApp.Services;
 
-namespace DescentApp.ViewModels
-{
+namespace DescentApp.ViewModels {
     public abstract class ItemViewModel<T> : INotifyPropertyChanged where T : Item {
         // INotifyPropertyChanged Interface event
         public event PropertyChangedEventHandler PropertyChanged;
@@ -30,17 +24,18 @@ namespace DescentApp.ViewModels
         //private T items;
 
         // abstract methods
-        protected abstract List<T> GetItems(); 
+        protected abstract List<T> GetItems();
         protected abstract T GetEquipedItem();
 
-
-        // private helper fields
+        // protected helper fields
         protected Dictionary<string, T> nameToItem = new Dictionary<string, T>();
         protected Dictionary<T, string> itemToName = new Dictionary<T, string>();
+        protected T equipedItem;
+        private bool setupFlag = true;
 
         public ItemViewModel() {
             ItemNames.Add("No Item");
-            T currentItem = GetEquipedItem();
+            T equipedItem = GetEquipedItem();
             //WeoponItem[] items = DependencyService.Get<IDataStore>().MainHand.GetItemsAsync(true); 
             List<T> items = GetItems();
             foreach (T item in items) {
@@ -48,15 +43,16 @@ namespace DescentApp.ViewModels
                 nameToItem.Add(item.Name, item);
                 itemToName.Add(item, item.Name);
             }
-            if (currentItem != null) {
-                for (int i = 1; i < ItemNames.Count; i++ ) {
-                    if (currentItem.Name == ItemNames[i]) {
+            if (equipedItem != null) {
+                for (int i = 1; i < ItemNames.Count; i++) {
+                    if (equipedItem.Name == ItemNames[i]) {
                         SelectedIndex = i;
                     }
                 }
             } else {
                 SelectedIndex = 0;
             }
+            setupFlag = false;
         }
 
 
@@ -67,9 +63,9 @@ namespace DescentApp.ViewModels
             }
             private set {
                 if (!Equals(value, _itemNames)) {
-                    _itemNames= value;
+                    _itemNames = value;
                     OnPropertyChanged(nameof(ItemNames));
-               }
+                }
             }
         }
 
@@ -80,17 +76,23 @@ namespace DescentApp.ViewModels
             set {
                 if (selectedIndex != value) {
                     selectedIndex = value;
-
-                    T oldItem = GetEquipedItem();
-                    if (oldItem != null) {
-                        hero.UnEquip(oldItem);
-                    }
-                    string newItemName = ItemNames[selectedIndex];
-                    if (newItemName != "No Item") { 
-                        T newItem = nameToItem[newItemName];
-                        hero.Equip(newItem);
-                    }
+                    SwitchItem(selectedIndex);
                     OnPropertyChanged(nameof(SelectedIndex));
+                }
+            }
+        }
+
+        private void SwitchItem(int newIndex) {
+            if (!setupFlag) {
+                // remove old item
+                if (equipedItem != null) {
+                    hero.UnEquip(equipedItem);
+                }
+                // add new item
+                string newItemName = ItemNames[newIndex];
+                if (newItemName != "No Item") {
+                    T equipedItem = nameToItem[newItemName];
+                    hero.Equip(equipedItem);
                 }
             }
         }
@@ -101,17 +103,17 @@ namespace DescentApp.ViewModels
     }
 
     public class MainHandItemViewModel : ItemViewModel<WeoponItem> {
-        protected override WeoponItem GetEquipedItem() => hero.Equipment.MainHand; 
+        protected override WeoponItem GetEquipedItem() => hero.Equipment.MainHand;
         protected override List<WeoponItem> GetItems() => DependencyService.Get<IDataStore>().MainHand;
     }
 
     public class OffHandItemViewModel : ItemViewModel<ShieldItem> {
-        protected override ShieldItem GetEquipedItem() => hero.Equipment.OffHand; 
+        protected override ShieldItem GetEquipedItem() => hero.Equipment.OffHand;
         protected override List<ShieldItem> GetItems() => DependencyService.Get<IDataStore>().OffHand;
     }
 
     public class ArmorItemViewModel : ItemViewModel<ArmorItem> {
-        protected override ArmorItem GetEquipedItem() => hero.Equipment.Armor; 
+        protected override ArmorItem GetEquipedItem() => hero.Equipment.Armor;
         protected override List<ArmorItem> GetItems() => DependencyService.Get<IDataStore>().Armor;
     }
 
@@ -120,7 +122,6 @@ namespace DescentApp.ViewModels
         protected override List<TrinketItem> GetItems() => DependencyService.Get<IDataStore>().Trinket;
         protected override TrinketItem GetEquipedItem() {
             if (hero.Equipment.Trinket.Count >= 1) {
-                // TODO: there may also be a bug here
                 return hero.Equipment.Trinket[0];
             }
             return null;
@@ -131,17 +132,9 @@ namespace DescentApp.ViewModels
         protected override List<TrinketItem> GetItems() => DependencyService.Get<IDataStore>().Trinket;
         protected override TrinketItem GetEquipedItem() {
             if (hero.Equipment.Trinket.Count == 2) {
-                // TODO: there is a bug here, if you unequip trinket 1, then
-                // count will be 1, and thus null will be returned
                 return hero.Equipment.Trinket[1];
             }
             return null;
         }
     }
-    //public class Trinket1ItemViewModel : TrinketItemViewModel {
-    //    protected override int TrinketNumber { get { return 1; } }
-    //}
-    //public class Trinket2ItemViewModel : TrinketItemViewModel {
-    //    protected override int TrinketNumber { get { return 2; } }
-    //}
 }

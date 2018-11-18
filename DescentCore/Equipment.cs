@@ -26,7 +26,17 @@ namespace DescentCore.Equipment {
     // EquipedItems
     //////////////////////////////////////////////////////////////////////
     public class EquipedItems {
-        private int usedHands = 0;
+        public int UsedHands {
+            get {
+                int hands = 0;
+                if (MainHand != null) {
+                    hands += MainHand.Hands;
+                } if (OffHand != null ) {
+                    hands += OffHand.Hands;
+                }
+                return hands;
+            }
+        }
         public WeoponItem MainHand { get; private set; } = null;
         public ShieldItem OffHand { get; private set; } = null;
         public ArmorItem Armor { get; private set; } = null;
@@ -63,11 +73,9 @@ namespace DescentCore.Equipment {
             switch(item.Type) {
                 case (EquipmentType.Hand):
                     HandItem hand = item as HandItem;
-                    if (hand.Hands + this.usedHands > 2) {
+                    if (hand.Hands + this.UsedHands > 2) {
                         throw new EquipmentException("Hands are already full");
                     }
-                    this.usedHands += hand.Hands;
-
                     WeoponItem weopon = item as WeoponItem;
                     if (weopon != null) {
                         this.MainHand = weopon;
@@ -98,14 +106,12 @@ namespace DescentCore.Equipment {
             switch(item.Type) {
                 case (EquipmentType.Hand):
                     WeoponItem weopon = item as WeoponItem;
-                    if (weopon == this.MainHand) {
-                        this.usedHands -= this.MainHand.Hands;
+                    if ((weopon != null) && (weopon == this.MainHand)) {
                         this.MainHand = null;
                         break;
                     } 
                     ShieldItem shield = item as ShieldItem;
-                    if (shield == this.OffHand) {
-                        this.usedHands -= this.OffHand.Hands;
+                    if ((shield != null) && (shield == this.OffHand)) {
                         this.OffHand = null;
                         break;
                     } 
