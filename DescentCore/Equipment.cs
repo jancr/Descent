@@ -1,7 +1,11 @@
+// core imports
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
+// local imports
 using DescentCore.Dice;
 using DescentCore.Abillites;
 using DescentCore.Exceptions;
@@ -12,8 +16,9 @@ namespace DescentCore.Equipment {
     //////////////////////////////////////////////////////////////////////
     // there are more types, remember to add
     public enum ItemCatagory {
-        Bow, Exotic, Blade, Book, Magic, Staff, Trinket,
-        LightArmor, MediumArmor, HeavyArmor, Shield
+        Bow, Exotic, Blade, Book, Staff, Shield, Hammer, // hands
+        LightArmor, MediumArmor, HeavyArmor, Cloak,  // armor
+        Trinket, Magic, Rune, Axe, Helmet, Ring
     }
     public enum HandCatagory {
         MeleeWeopon, RangeWeopon, Shield
@@ -134,6 +139,85 @@ namespace DescentCore.Equipment {
     //////////////////////////////////////////////////////////////////////
     // Equipment
     //////////////////////////////////////////////////////////////////////
+    public class GearFactory {
+        public List<WeoponItem> MainHand { get; private set; }
+        public List<ShieldItem> OffHand { get; private set; }
+        public List<ArmorItem> Armor { get; private set; }
+        public List<TrinketItem> Trinket { get; private set; }
+        public GearFactory(string source="ActI") {
+            Armor = IterArmors(source).ToList();
+            MainHand = IterMainHand(source).ToList();
+            OffHand = IterOffHand(source).ToList();
+            Trinket = IterTrinket(source).ToList();
+        }
+        public IEnumerable<string[]> IterFile(string source, string fileName) {
+            string line;
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Items", source, fileName);
+            using (var reader = new StreamReader(path)) {
+                reader.ReadLine();  // skip header
+                while ((line = reader.ReadLine()) != null) {
+                    if (line[0] != '#') {
+                        yield return line.TrimEnd('\r', '\n').Split('\t');
+                    }
+                }
+            }
+        }
+
+        private IEnumerable<ArmorItem> IterArmors(string source) {
+            foreach(string[] tabs in IterFile(source, "armor.tsv")) {
+                string name = tabs[0];
+                DefenceDice defence = new DefenceDice(tabs[1].Split(','));
+                ItemCatagory armorType = ParseCatagories(tabs[2])[0];
+                Abillity[] abillities = ParseAbillities(tabs[3]);
+                yield return new ArmorItem(name, defence, armorType, abillities);
+            }
+        }
+
+        private IEnumerable<WeoponItem> IterMainHand(string source) {
+            foreach(string[] tabs in IterFile(source, "main_hand.tsv")) {
+                string name = tabs[0];
+                ItemCatagory[] catagories = ParseCatagories(tabs[1]);
+                HandCatagory type = (HandCatagory)Enum.Parse(typeof(HandCatagory), tabs[2]);
+                int hands = Int32.Parse(tabs[3]);
+                AttackDice attack = new AttackDice(tabs[4].Split(','));
+                Abillity[] abillities = ParseAbillities(tabs[5]);
+                yield return new WeoponItem(name, attack, type, abillities, catagories, hands);
+            }
+        }
+
+        private IEnumerable<ShieldItem> IterOffHand(string source) {
+            foreach(string[] tabs in IterFile(source, "off_hand.tsv")) {
+                yield return new ShieldItem(tabs[0], ParseAbillities(tabs[1]));
+            }
+        }
+
+        private IEnumerable<TrinketItem> IterTrinket(string source) {
+            foreach(string[] tabs in IterFile(source, "trinket.tsv")) {
+                string name = tabs[0];
+                ItemCatagory[] catagories = ParseCatagories(tabs[1]);
+                Abillity[] abillities = ParseAbillities(tabs[2]);
+                yield return new TrinketItem(name, catagories, abillities);
+            }
+        }
+
+        private ItemCatagory[] ParseCatagories(string catagories) {
+            return (from c in catagories.Split(',')
+                    select (ItemCatagory)Enum.Parse(typeof(ItemCatagory), c)).ToArray();
+        }
+
+
+        private Abillity[] ParseAbillities(string abillityString) {
+            if (abillityString == "") {
+                return new Abillity[0];
+            }
+            var abillities = new List<Abillity>();
+            foreach (string a in abillityString.Split(',')) {
+                abillities.Add(new Abillity(a));
+            }
+            return abillities.ToArray();
+
+        }
+    }
     public abstract class Item {
         // TODO implement some interfaces
         public Abillity[] Abillities { get; private set; } = new Abillity[0];
@@ -148,6 +232,13 @@ namespace DescentCore.Equipment {
             this.Abillities = abillities;
             this.Catagories = catagories;
         }
+        public override string ToString() {
+            return $"{base.ToString()}: {{ Name = {Name}, Type = {Type}, Abillities = {Abillities}" +
+                   $"Categories = {Catagories} }}";
+        }
+        public override bool Equals(object obj) {
+            return this.ToString() == obj.ToString();
+        }
     }
 
     public class EvilArtefactItem : Item {
@@ -156,8 +247,8 @@ namespace DescentCore.Equipment {
     }
 
     public class TrinketItem : Item {
-        public TrinketItem(string name, Abillity[] abillities) : base(name, EquipmentType.Trinket,
-                           abillities, new ItemCatagory[1] { ItemCatagory.Trinket }) { }
+        public TrinketItem(string name, ItemCatagory[] catagories, Abillity[] abillities) : base(name, EquipmentType.Trinket,
+                           abillities, catagories) { }
     }
 
     public class ArmorItem : Item {
@@ -167,6 +258,9 @@ namespace DescentCore.Equipment {
                          Abillity[] abillities) : base (name, EquipmentType.Armor, 
                              abillities, new ItemCatagory[1] { armorType }) {
             this.DefenceDice = defence;
+        }
+        public override string ToString() {
+            return $"{base.ToString().TrimEnd('}')} DefenceDice = {DefenceDice}";
         }
     }
 
@@ -183,6 +277,9 @@ namespace DescentCore.Equipment {
             this.HandType = handType;
             this.Hands = 1;
         }
+        public override string ToString() {
+            return $"{base.ToString().TrimEnd('}')} HandType = {HandType} Hands = {Hands}";
+        }
     }
 
     public class ShieldItem : HandItem {
@@ -197,6 +294,9 @@ namespace DescentCore.Equipment {
                 Abillity[] abillities, ItemCatagory[] catagories, int hands) 
                 : base(name, abillities, catagories, weoponType, hands) {
             this.AttackDice = attack;
+        }
+        public override string ToString() {
+            return $"{base.ToString().TrimEnd('}')} AttackDice = {AttackDice}";
         }
     }
 }

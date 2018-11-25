@@ -69,18 +69,23 @@ namespace DescentApp.Services {
         public List<TrinketItem> Trinket { get; private set; }
 
         public FileDataStore() {
+            GearFactory gf = new GearFactory();
+            MainHand = gf.MainHand;
+            OffHand = gf.OffHand;
+            Armor = gf.Armor;
+            Trinket = gf.Trinket;
             var baseDefence = new DefenceDice(new GreyDie());
             Hero = new Hero("Leoric", 4, 8, 5, baseDefence, 1, 5, 3, 2, 0);
 
-            MainHand = GetWeoponItems();
-            OffHand = new List<ShieldItem> { new ShieldItem("Standard Shield", new Abillity[0]) };
-            Armor = new List<ArmorItem> {
-                new ArmorItem("Brown Armor", new DefenceDice(new BrownDie()), ItemCatagory.LightArmor, new Abillity[0]),
-                new ArmorItem("Grey Armor", new DefenceDice(new GreyDie()), ItemCatagory.MediumArmor, new Abillity[0]),
-                new ArmorItem("Black Armor", new DefenceDice(new BlackDie()), ItemCatagory.HeavyArmor, new Abillity[0])
-            };
-            Trinket = new List<TrinketItem> { new TrinketItem("Pretty Ring", new Abillity[0]),
-                                              new TrinketItem("Ugly Ring", new Abillity[0]) };
+            //MainHand = GetWeoponItems();
+            //OffHand = new List<ShieldItem> { new ShieldItem("Standard Shield", new Abillity[0]) };
+            //Armor = new List<ArmorItem> {
+            //    new ArmorItem("Brown Armor", new DefenceDice(new BrownDie()), ItemCatagory.LightArmor, new Abillity[0]),
+            //    new ArmorItem("Grey Armor", new DefenceDice(new GreyDie()), ItemCatagory.MediumArmor, new Abillity[0]),
+            //    new ArmorItem("Black Armor", new DefenceDice(new BlackDie()), ItemCatagory.HeavyArmor, new Abillity[0])
+            //};
+            //Trinket = new List<TrinketItem> { new TrinketItem("Pretty Ring", new Abillity[0]),
+            //                                  new TrinketItem("Ugly Ring", new Abillity[0]) };
         }
 
         //public Hero Hero {
@@ -100,29 +105,29 @@ namespace DescentApp.Services {
         //    private set { armor = value; }
         //}
 
-        private List<WeoponItem> GetWeoponItems() {
-            // TODO load from file in the future!
-            var catagories = new ItemCatagory[] { ItemCatagory.Staff, ItemCatagory.Magic };
-            Abillity[] a;
+        //private List<WeoponItem> GetWeoponItems() {
+        //    // TODO load from file in the future!
+        //    var catagories = new ItemCatagory[] { ItemCatagory.Staff, ItemCatagory.Magic };
+        //    Abillity[] a;
 
-            a = new Abillity[] { new Abillity(2, AbillityType.Pierce, 1) };
-            WeoponItem whip = new WeoponItem(
-                "9 Tailed Whip", new AttackDice("blue", "power"),
-                HandCatagory.MeleeWeopon, a, new ItemCatagory[] { ItemCatagory.Exotic }, 1);
+        //    a = new Abillity[] { new Abillity(2, AbillityType.Pierce, 1) };
+        //    WeoponItem whip = new WeoponItem(
+        //        "9 Tailed Whip", new AttackDice("blue", "power"),
+        //        HandCatagory.MeleeWeopon, a, new ItemCatagory[] { ItemCatagory.Exotic }, 1);
 
-            a = new Abillity[] { new Abillity(2, AbillityType.Pierce, 1),
-                                         new Abillity(2, AbillityType.Range, 1) };
-            WeoponItem weakStaff = new WeoponItem(
-                "Weak Staff", new AttackDice("blue", "yellow"),
-                HandCatagory.RangeWeopon, a, catagories, 2);
+        //    a = new Abillity[] { new Abillity(2, AbillityType.Pierce, 1),
+        //                                 new Abillity(2, AbillityType.Range, 1) };
+        //    WeoponItem weakStaff = new WeoponItem(
+        //        "Weak Staff", new AttackDice("blue", "yellow"),
+        //        HandCatagory.RangeWeopon, a, catagories, 2);
 
-            a = new Abillity[] { new Abillity(3, AbillityType.Damage, 2),
-                                         new Abillity(1, AbillityType.Damage, 1) };
-            WeoponItem fancyStaff = new WeoponItem(
-                "Fancy Staff", new AttackDice("blue", "power", "yellow"),
-                HandCatagory.RangeWeopon, a, catagories, 2);
+        //    a = new Abillity[] { new Abillity(3, AbillityType.Damage, 2),
+        //                                 new Abillity(1, AbillityType.Damage, 1) };
+        //    WeoponItem fancyStaff = new WeoponItem(
+        //        "Fancy Staff", new AttackDice("blue", "power", "yellow"),
+        //        HandCatagory.RangeWeopon, a, catagories, 2);
 
-           return new List<WeoponItem> { whip, fancyStaff, weakStaff };
-        }
+        //   return new List<WeoponItem> { whip, fancyStaff, weakStaff };
+        //}
     }
 }

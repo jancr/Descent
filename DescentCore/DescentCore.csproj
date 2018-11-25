@@ -4,4 +4,34 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="armor.tsv" />
+    <None Remove="Data\Items\ActI\armor.tsv" />
+    <None Remove="Data\Items\ActI\main_hand.tsv" />
+    <None Remove="Data\Items\ActI\off_hand.tsv" />
+    <None Remove="Data\Items\ActI\trinket.tsv" />
+    <None Remove="Data\main_hand.tsv" />
+    <None Remove="Data\off_hand.tsv" />
+    <None Remove="Data\trinket.tsv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\Items\ActI\armor.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Items\ActI\main_hand.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Items\ActI\off_hand.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Items\ActI\trinket.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="5.2.1" />
+  </ItemGroup>
+
 </Project>

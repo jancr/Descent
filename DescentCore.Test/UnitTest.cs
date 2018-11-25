@@ -92,12 +92,43 @@ namespace DescentCoreCore.UnitTest {
             if (expectedDamage != 0) {
                 dice = new DiceOutcome(attackRoll, defenceRoll);
                 TrinketItem damageTrinket = new TrinketItem("Free Damage", 
+                        new ItemCatagory[] { ItemCatagory.Helmet },
                         new Abillity[] { new Abillity(1, AbillityType.Damage, 0) });
                 leoric.Equip(damageTrinket);
 
                 damage = leoric.ResolveSurges(dice, range);
                 Assert.Equal(expectedDamage + 1, damage);
             }
+        }
+    }
+        
+    public class DescentCore_Equipment {
+
+        [Fact]
+        public void TestGearFactory() {
+            Abillity[] a;
+            var gf = new GearFactory("ActI");
+
+            a = new Abillity[] {
+                    new Abillity(1, AbillityType.Range, 0, 0),
+                    new Abillity(1, AbillityType.Damage, 1, 0),
+                    new Abillity(1, AbillityType.Pierce, 1, 0), };
+            var mainHand = new WeoponItem(
+                    "Iron Spear", new AttackDice("blue", "yellow"), HandCatagory.MeleeWeopon,
+                    a, new ItemCatagory[] { ItemCatagory.Exotic }, 1);
+            Assert.Equal(mainHand, gf.MainHand[0]);
+
+            var offHand = new ShieldItem("Iron Shield", new Abillity[0]);
+            Assert.Equal(offHand, gf.OffHand[0]);
+
+            var armor = new ArmorItem("Chainmail", new DefenceDice("grey"),
+                ItemCatagory.HeavyArmor, new Abillity[0]);
+            Assert.Equal(armor, gf.Armor[0]);
+
+            a = new Abillity[] { new Abillity(1, AbillityType.Range, 0, 0) };
+            var helmet = new ItemCatagory[] { ItemCatagory.Helmet };
+            var trinket = new TrinketItem("Scorpion Helmet", helmet, a);
+            Assert.Equal(trinket, gf.Trinket[0]);
         }
 
         // static void TestUnits() {

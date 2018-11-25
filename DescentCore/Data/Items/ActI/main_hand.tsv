@@ -1,0 +1,11 @@
+name	catagories	type	hands	dice	abillities
+Iron Spear	Exotic	MeleeWeopon	1	blue,yellow	0L:1R,1L:1D,1L:1P
+Elm Greatbow	Bow	RangeWeopon	2	blue,yellow	1L:2D,1L:2R
+Crossbow	Bow,Exotic	RangeWeopon	1	blue,yellow	0L:1P,1L:2D,1L:1D
+Magic Staff	Magic,Staff	RangeWeopon	2	blue,power	1L:1R
+Iron Battleax	Axe	MeleeWeopon	2	blue,power	0L:1P,1L:2D,1L:1P
+Immolation	Magic,Rune	RangeWeopon	2	blue,power	0L:1P,1L:1D,1L:1R
+Light Hammer	Hammer	MeleeWeopon	1	blue,yellow	0L:2D
+Sunburts	Magic,Rune	RangeWeopon	2	blue,yellow	1L:2D
+Steel Broadsword	Blade	MeleeWeopon	1	blue,red	1L:1D
+#Sling	Exotic	RangeWeopon	1	blue,yellow	1L:1R1D

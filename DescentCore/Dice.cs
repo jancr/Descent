@@ -273,7 +273,8 @@ namespace DescentCore.Dice {
                     case "blue":
                         this.Add(new BlueDie());
                         break;
-                    case "power":
+                    case "power": 
+                    case "red":
                         this.Add(new PowerDie());
                         break;
                     case "yellow":
@@ -299,6 +300,10 @@ namespace DescentCore.Dice {
             this.ForEach(die => total += die.Roll());
             return total;
         }
+        
+        public override string ToString() {
+            return $"{base.ToString()}: {this}";
+        }
     }
 
     public class DefenceDice : List<DefenceDie> {
@@ -319,6 +324,8 @@ namespace DescentCore.Dice {
                     case "black":
                         this.Add(new BlackDie());
                         break;
+                    case "":
+                        break;
                     default:
                         throw new DieException("Invalid Die");
                 }
@@ -335,6 +342,10 @@ namespace DescentCore.Dice {
             var total = new DefenceDieFace();
             this.ForEach(die => total += die.Roll());
             return total;
+        }
+
+        public override string ToString() {
+            return $"{base.ToString()}: {this}";
         }
     }
 
