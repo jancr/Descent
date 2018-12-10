@@ -51,7 +51,8 @@ namespace DescentCore.Abillites {
                     if (priceType == 'L') {
                         this.SurgePrice = price;
                     } else if (priceType == 'S') {
-                        throw new NotImplementedException("Stamina abillities not implemented Yet");
+                        throw new NotImplementedException(
+                                "Stamina abillities not implemented Yet");
                     }
                 }
 
@@ -69,7 +70,8 @@ namespace DescentCore.Abillites {
                         break;
                 }
             } else {
-                throw new ArgumentException($"abillityString {abillityString} is not a valid regex");
+                throw new ArgumentException(
+                        $"abillityString {abillityString} is not a valid regex");
             }
         }
 

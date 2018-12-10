@@ -164,8 +164,9 @@ namespace DescentCore.Units {
         public int Awareness { get; private set; }
         
         public EliteUnit(string name, int move, int health, AttackDice attack,
-                         DefenceDice defence, int might, int knowledge, int willpower,
-                         int awareness) : base(name, move, health, attack, defence) { 
+                         DefenceDice defence, int might, int knowledge, 
+                         int willpower, int awareness) :
+                         base(name, move, health, attack, defence) { 
             Might = might;
             Knowledge = knowledge;
             Willpower = willpower;
@@ -173,12 +174,14 @@ namespace DescentCore.Units {
         }
     }
 
+
     public class Henchmen : EliteUnit {
         public EvilArtefactItem EvilItem { get; set; } = null;
-        public Henchmen(string name, int move, int health, int stamina, AttackDice attack, 
-                        DefenceDice defence, int might, int knowledge, int willpower,
-                        int awareness) : base(name, move, health, attack, defence, might,
-                                              knowledge, willpower, awareness) { }
+        public Henchmen(string name, int move, int health, int stamina, 
+                        AttackDice attack, DefenceDice defence, int might, 
+                        int knowledge, int willpower, int awareness)
+                : base(name, move, health, attack, defence, might, knowledge,
+                       willpower, awareness) { }
         // TODO make Henchmen equipment work
         // public Equip
     }
@@ -209,10 +212,11 @@ namespace DescentCore.Units {
             }
         }
 
-        public Hero(string name, int move, int health, int stamina, DefenceDice defence,
-                    int might, int knowledge, int willpower, int awareness, int xp=0) : 
-                base(name, move, health, new AttackDice(), defence, might, knowledge, 
-                     willpower, awareness) { 
+        public Hero(string name, int move, int health, int stamina, 
+                    DefenceDice defence, int might, int knowledge, int willpower,
+                    int awareness, int xp=0) 
+                : base(name, move, health, new AttackDice(), defence, might, 
+                       knowledge, willpower, awareness) { 
             this.BaseDefence = defence;
             this.MaxStamina = stamina;
             this.Stamina = stamina;

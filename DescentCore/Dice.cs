@@ -46,7 +46,8 @@ namespace DescentCore.Dice {
         private int _range = 0;
         private bool _hit = true;
         
-        public AttackDieFace(int power=0, int surge=0, int range=0, bool hit=true) {
+        public AttackDieFace(int power=0, int surge=0, int range=0,
+                             bool hit=true) {
             this.Hit = hit;
             this.Power = power;
             this.Surge = surge;
@@ -81,7 +82,8 @@ namespace DescentCore.Dice {
             return new AttackDieFace(0, 0, 0, false);
         }
 
-        public static AttackDieFace operator + (AttackDieFace face1, AttackDieFace face2) {
+        public static AttackDieFace operator + (AttackDieFace face1,
+                                                AttackDieFace face2) {
             bool hit = face1.Hit && face2.Hit; 
             int power = face1.Power + face2.Power;
             int surge = face1.Surge + face2.Surge;
@@ -97,7 +99,8 @@ namespace DescentCore.Dice {
         }
 
         public AttackDieFace Clone() {
-            return new AttackDieFace(this.Power, this.Surge, this.Range, this.Hit);
+            return new AttackDieFace(this.Power, this.Surge, this.Range, 
+                                     this.Hit);
         }
     }
 
@@ -133,11 +136,13 @@ namespace DescentCore.Dice {
             return new DefenceDieFace(die.Shield - number);
         }
 
-        public static DefenceDieFace operator + (DefenceDieFace die1, DefenceDieFace die2) {
+        public static DefenceDieFace operator + (DefenceDieFace die1, 
+                                                 DefenceDieFace die2) {
             return new DefenceDieFace(die1.Shield + die2.Shield);
         }
 
-        public static DefenceDieFace operator - (DefenceDieFace die1, DefenceDieFace die2) {
+        public static DefenceDieFace operator - (DefenceDieFace die1,
+                                                 DefenceDieFace die2) {
             return new DefenceDieFace(die1.Shield - die2.Shield);
         }
         public override string ToString() {
@@ -236,8 +241,9 @@ namespace DescentCore.Dice {
     public class BrownDie: DefenceDie {
         public BrownDie() {
             this.faces = new DefenceDieFace[] {
-                new DefenceDieFace(0), new DefenceDieFace(0), new DefenceDieFace(0),
-                new DefenceDieFace(1), new DefenceDieFace(1), new DefenceDieFace(2)
+                new DefenceDieFace(0), new DefenceDieFace(0), 
+                new DefenceDieFace(0), new DefenceDieFace(1),
+                new DefenceDieFace(1), new DefenceDieFace(2)
             };
         }
     }
@@ -245,8 +251,9 @@ namespace DescentCore.Dice {
     public class GreyDie: DefenceDie {
         public GreyDie() {
             this.faces = new DefenceDieFace[] {
-                new DefenceDieFace(0), new DefenceDieFace(1), new DefenceDieFace(1),
-                new DefenceDieFace(1), new DefenceDieFace(2), new DefenceDieFace(3),
+                new DefenceDieFace(0), new DefenceDieFace(1),
+                new DefenceDieFace(1), new DefenceDieFace(1),
+                new DefenceDieFace(2), new DefenceDieFace(3),
             };
         }
     }
@@ -254,8 +261,9 @@ namespace DescentCore.Dice {
     public class BlackDie: DefenceDie {
         public BlackDie() {
             this.faces = new DefenceDieFace[] {
-                new DefenceDieFace(0), new DefenceDieFace(2), new DefenceDieFace(2),
-                new DefenceDieFace(2), new DefenceDieFace(3), new DefenceDieFace(4)
+                new DefenceDieFace(0), new DefenceDieFace(2),
+                new DefenceDieFace(2), new DefenceDieFace(2),
+                new DefenceDieFace(3), new DefenceDieFace(4)
             };
         }
     }
@@ -368,10 +376,14 @@ namespace DescentCore.Dice {
     public class DiceOutcome : DieFace {
         public AttackDieFace Attack { get; set; }
         public DefenceDieFace Defence { get; set; }
-        public int Power { get {return this.Attack.Power;} set {this.Attack.Power = value;} }
-        public int Surge { get {return this.Attack.Surge;} set {this.Attack.Surge = value;} }
-        public int Range { get {return this.Attack.Range;} set {this.Attack.Range = value;} }
-        public bool Hit { get {return this.Attack.Hit;} set {this.Attack.Hit = value;} }
+        public int Power { get {return this.Attack.Power;}
+                           set {this.Attack.Power = value;} }
+        public int Surge { get {return this.Attack.Surge;} 
+                           set {this.Attack.Surge = value;} }
+        public int Range { get {return this.Attack.Range;}
+                           set {this.Attack.Range = value;} }
+        public bool Hit { get {return this.Attack.Hit;}
+                          set {this.Attack.Hit = value;} }
         public int Shield { get {return this.Defence.Shield;} 
                             set {this.Defence.Shield = value;} }
 

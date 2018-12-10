@@ -13,12 +13,14 @@ using DescentCore.Units;
 using DescentApp.Services;
 
 namespace DescentApp.ViewModels {
-    public abstract class ItemViewModel<T> : INotifyPropertyChanged where T : Item {
+    public abstract class ItemViewModel<T> : INotifyPropertyChanged 
+                where T : Item {
         // INotifyPropertyChanged Interface event
         public event PropertyChangedEventHandler PropertyChanged;
 
         // propperty backing fields
-        private ObservableCollection<string> _itemNames = new ObservableCollection<string>();
+        private ObservableCollection<string> _itemNames = 
+            new ObservableCollection<string>();
         private int selectedIndex = -1;
         protected Hero hero = DependencyService.Get<IDataStore>().Hero;
         //private T items;
@@ -36,7 +38,6 @@ namespace DescentApp.ViewModels {
         public ItemViewModel() {
             ItemNames.Add("No Item");
             T equipedItem = GetEquipedItem();
-            //WeoponItem[] items = DependencyService.Get<IDataStore>().MainHand.GetItemsAsync(true); 
             List<T> items = GetItems();
             foreach (T item in items) {
                 ItemNames.Add(item.Name);
@@ -54,7 +55,6 @@ namespace DescentApp.ViewModels {
             }
             setupFlag = false;
         }
-
 
         // Binding Propperties
         public ObservableCollection<string> ItemNames {
@@ -96,6 +96,7 @@ namespace DescentApp.ViewModels {
                 }
             }
         }
+
         protected virtual void OnPropertyChanged(string propertyName) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -104,22 +105,26 @@ namespace DescentApp.ViewModels {
 
     public class MainHandItemViewModel : ItemViewModel<WeoponItem> {
         protected override WeoponItem GetEquipedItem() => hero.Equipment.MainHand;
-        protected override List<WeoponItem> GetItems() => DependencyService.Get<IDataStore>().MainHand;
+        protected override List<WeoponItem> GetItems() => 
+            DependencyService.Get<IDataStore>().MainHand;
     }
 
     public class OffHandItemViewModel : ItemViewModel<ShieldItem> {
         protected override ShieldItem GetEquipedItem() => hero.Equipment.OffHand;
-        protected override List<ShieldItem> GetItems() => DependencyService.Get<IDataStore>().OffHand;
+        protected override List<ShieldItem> GetItems() => 
+            DependencyService.Get<IDataStore>().OffHand;
     }
 
     public class ArmorItemViewModel : ItemViewModel<ArmorItem> {
         protected override ArmorItem GetEquipedItem() => hero.Equipment.Armor;
-        protected override List<ArmorItem> GetItems() => DependencyService.Get<IDataStore>().Armor;
+        protected override List<ArmorItem> GetItems() =>
+            DependencyService.Get<IDataStore>().Armor;
     }
 
     // Trinket Abstract ViewModel and Subclasses
     public class Trinket1ItemViewModel : ItemViewModel<TrinketItem> {
-        protected override List<TrinketItem> GetItems() => DependencyService.Get<IDataStore>().Trinket;
+        protected override List<TrinketItem> GetItems() =>
+            DependencyService.Get<IDataStore>().Trinket;
         protected override TrinketItem GetEquipedItem() {
             if (hero.Equipment.Trinket.Count >= 1) {
                 return hero.Equipment.Trinket[0];
@@ -129,7 +134,8 @@ namespace DescentApp.ViewModels {
     }
 
     public class Trinket2ItemViewModel : ItemViewModel<TrinketItem> {
-        protected override List<TrinketItem> GetItems() => DependencyService.Get<IDataStore>().Trinket;
+        protected override List<TrinketItem> GetItems() =>
+            DependencyService.Get<IDataStore>().Trinket;
         protected override TrinketItem GetEquipedItem() {
             if (hero.Equipment.Trinket.Count == 2) {
                 return hero.Equipment.Trinket[1];
