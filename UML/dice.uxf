@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>100</y>
+      <w>310</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>AttackDieFace
+--
+Power: int
+Surge: int
+Range: int
+Hit: bool
+--
++&lt;&lt;constructor&gt;&gt;AttackDieFace(power:int, 
+	surge:int, range:int, hit:bool)
++Mis(): AttackDieFace
++operator +(face1: AttackDieFace, 
+	face2: AttackDieFace):  AttackDieFace
++ToString(): string
++Clone(): AttackDieFace
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>0</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>/DieFace/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>370</x>
+      <y>100</y>
+      <w>530</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>DefenceDieFace
+--
+Shield: int
+--
++&lt;&lt;constructor&gt;DefenceDieFace(shield: int)
++operator +(face1: DefenceDieFace, face2: DefenceDieFace):  DefenceDieFace
++ToString(): string
++Clone(): DefenceDieFace
++Pierce(pierce: int)
++TryPierce(pierce: int): int
++operator +(die: DefenceDieFace, number: int): DefenceDieFace
++operator +(die1: DefenceDieFace, die2: DefenceDieFace): DefenceDieFace
++operator -(die: DefenceDieFace, number: int): DefenceDieFace
++operator -(die1: DefenceDieFace, die2: DefenceDieFace): DefenceDieFace
++ToString(): string
++Clone(): AttackDieFace
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>20</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>190.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>20</y>
+      <w>310</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;290.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>290</x>
+      <y>410</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Die&lt;T where T DieFace&gt;
+--
+rand:Random
++Roll(): T</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>260</x>
+      <y>500</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>AttackDie</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>380</x>
+      <y>500</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SimpleClass</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>460</y>
+      <w>80</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>300</x>
+      <y>460</y>
+      <w>100</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>530</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>YellowDie
+&lt;&lt;constructor&gt;&gt;YellowDie()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>410</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>BlueDie
+&lt;&lt;constructor&gt;&gt;BlueDie()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>590</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>GreenDie
+&lt;&lt;constructor&gt;&gt;GreenDie()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>470</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>PowerDie
+&lt;&lt;constructor&gt;&gt;PowerDie()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>550</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>BrownDie
+&lt;&lt;constructor&gt;&gt;BrownDie()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>430</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>BlackDie
+&lt;&lt;constructor&gt;&gt;BlackDie()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>510</x>
+      <y>490</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>GreyDie
+&lt;&lt;constructor&gt;&gt;GreyDie()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>420</y>
+      <w>70</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>140</x>
+      <y>300</y>
+      <w>190</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>330</y>
+      <w>230</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>210.0;10.0;10.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>480</y>
+      <w>70</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>500</y>
+      <w>70</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>500</y>
+      <w>70</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;120.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>450</y>
+      <w>60</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>500</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>500</y>
+      <w>60</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>40.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>670</y>
+      <w>350</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>AttackDice : List&lt;AttackDie&gt;
+--
+&lt;&lt;constructor&gt;&gt;AttackDice()
+&lt;&lt;constructor&gt;&gt;AttackDice(param names: string[])
+&lt;&lt;constructor&gt;&gt;AttackDice(parms dice: AttackDie[])
++Roll(): AttackDieFace
++ToString(): string
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>800</y>
+      <w>360</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>DefenceDice : List&lt;DefenceDie&gt;
+--
+&lt;&lt;constructor&gt;&gt;DefenceDice()
+&lt;&lt;constructor&gt;&gt;DefenceDice(param names: string[])
+&lt;&lt;constructor&gt;&gt;DefenceDice(parms dice: AttackDie[])
++Roll(): AttackDieFace
++ToString(): string
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>660</y>
+      <w>300</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Dice 
+--
++Attack: AttackDice
++Defence: DefenceDice
+--
+&lt;&lt;constructor&gt;&gt;Dice(attackDice: AttackDice, 
+	defenceDice: DefenceDice)
++Roll(): DiceOutcome
++RollAttack(): AttackDieFace
++RollDefence(): DefenceDieFace
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>720</x>
+      <y>350</y>
+      <w>230</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>DiceOutcome
+--
++Attack: AttackDiceFace
++Defence: DefenceDiceFace
++Power: int
++Surge: int
++Range: int
++Hit: bool
++Shield: int
+--
+&lt;&lt;constructor&gt;&gt;DiceOutcome(
+	attak: AttackDiceFace, 
+	defence: DefenceDiceFace)
++Roll(): DiceOutcome
++RollAttack(): AttackDieFace
++RollDefence(): DefenceDieFace
++GetDamage(range: int): int
++Mis(): bool
++UseAbillity(abillity: Abillity)
++Clone(): DiceOutcome
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>20</y>
+      <w>30</w>
+      <h>410</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;390.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>380</y>
+      <w>400</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;380.0;10.0</additional_attributes>
+  </element>
+</diagram>
