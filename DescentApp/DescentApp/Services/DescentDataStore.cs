@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using DescentCore.Abillites;
+using DescentCore.Abilites;
 using DescentCore.Dice;
 using DescentCore.Units;
 using DescentCore.Equipment;
@@ -35,16 +35,16 @@ namespace DescentApp.Services {
     //    public MainHandStore() {
     //        // TODO load from file in the future!
     //        var catagories = new ItemCatagory[] { ItemCatagory.Staff, ItemCatagory.Magic };
-    //        Abillity[] a;
+    //        Ability[] a;
 
-    //        a = new Abillity[] { new Abillity(2, AbillityType.Pierce, 1),
-    //                                     new Abillity(2, AbillityType.Range, 1) };
+    //        a = new Ability[] { new Ability(2, AbilityType.Pierce, 1),
+    //                                     new Ability(2, AbilityType.Range, 1) };
     //        WeoponItem weakStaff = new WeoponItem(
     //            "Weak Staff", new AttackDice("blue", "yellow"),
     //            HandCatagory.RangeWeopon, a, catagories, 2);
 
-    //        a = new Abillity[] { new Abillity(3, AbillityType.Damage, 2),
-    //                                     new Abillity(1, AbillityType.Damage, 1) };
+    //        a = new Ability[] { new Ability(3, AbilityType.Damage, 2),
+    //                                     new Ability(1, AbilityType.Damage, 1) };
     //        WeoponItem fancyStaff = new WeoponItem(
     //            "Fancy Staff", new AttackDice("blue", "power", "yellow"),
     //            HandCatagory.RangeWeopon, a, catagories, 2);
@@ -78,14 +78,14 @@ namespace DescentApp.Services {
             Hero = new Hero("Leoric", 4, 8, 5, baseDefence, 1, 5, 3, 2, 0);
 
             //MainHand = GetWeoponItems();
-            //OffHand = new List<ShieldItem> { new ShieldItem("Standard Shield", new Abillity[0]) };
+            //OffHand = new List<ShieldItem> { new ShieldItem("Standard Shield", new Ability[0]) };
             //Armor = new List<ArmorItem> {
-            //    new ArmorItem("Brown Armor", new DefenceDice(new BrownDie()), ItemCatagory.LightArmor, new Abillity[0]),
-            //    new ArmorItem("Grey Armor", new DefenceDice(new GreyDie()), ItemCatagory.MediumArmor, new Abillity[0]),
-            //    new ArmorItem("Black Armor", new DefenceDice(new BlackDie()), ItemCatagory.HeavyArmor, new Abillity[0])
+            //    new ArmorItem("Brown Armor", new DefenceDice(new BrownDie()), ItemCatagory.LightArmor, new Ability[0]),
+            //    new ArmorItem("Grey Armor", new DefenceDice(new GreyDie()), ItemCatagory.MediumArmor, new Ability[0]),
+            //    new ArmorItem("Black Armor", new DefenceDice(new BlackDie()), ItemCatagory.HeavyArmor, new Ability[0])
             //};
-            //Trinket = new List<TrinketItem> { new TrinketItem("Pretty Ring", new Abillity[0]),
-            //                                  new TrinketItem("Ugly Ring", new Abillity[0]) };
+            //Trinket = new List<TrinketItem> { new TrinketItem("Pretty Ring", new Ability[0]),
+            //                                  new TrinketItem("Ugly Ring", new Ability[0]) };
         }
 
         //public Hero Hero {
@@ -108,21 +108,21 @@ namespace DescentApp.Services {
         //private List<WeoponItem> GetWeoponItems() {
         //    // TODO load from file in the future!
         //    var catagories = new ItemCatagory[] { ItemCatagory.Staff, ItemCatagory.Magic };
-        //    Abillity[] a;
+        //    Ability[] a;
 
-        //    a = new Abillity[] { new Abillity(2, AbillityType.Pierce, 1) };
+        //    a = new Ability[] { new Ability(2, AbilityType.Pierce, 1) };
         //    WeoponItem whip = new WeoponItem(
         //        "9 Tailed Whip", new AttackDice("blue", "power"),
         //        HandCatagory.MeleeWeopon, a, new ItemCatagory[] { ItemCatagory.Exotic }, 1);
 
-        //    a = new Abillity[] { new Abillity(2, AbillityType.Pierce, 1),
-        //                                 new Abillity(2, AbillityType.Range, 1) };
+        //    a = new Ability[] { new Ability(2, AbilityType.Pierce, 1),
+        //                                 new Ability(2, AbilityType.Range, 1) };
         //    WeoponItem weakStaff = new WeoponItem(
         //        "Weak Staff", new AttackDice("blue", "yellow"),
         //        HandCatagory.RangeWeopon, a, catagories, 2);
 
-        //    a = new Abillity[] { new Abillity(3, AbillityType.Damage, 2),
-        //                                 new Abillity(1, AbillityType.Damage, 1) };
+        //    a = new Ability[] { new Ability(3, AbilityType.Damage, 2),
+        //                                 new Ability(1, AbilityType.Damage, 1) };
         //    WeoponItem fancyStaff = new WeoponItem(
         //        "Fancy Staff", new AttackDice("blue", "power", "yellow"),
         //        HandCatagory.RangeWeopon, a, catagories, 2);

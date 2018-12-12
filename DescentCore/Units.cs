@@ -5,7 +5,7 @@ using System.Linq;
 
 using DescentCore.Dice;
 using DescentCore.Equipment;
-using DescentCore.Abillites;
+using DescentCore.Abilites;
 
 
 namespace DescentCore.Units {
@@ -35,7 +35,7 @@ namespace DescentCore.Units {
         public virtual AttackDice AttackDice { get; private set; }
         public virtual DefenceDice DefenceDice { get; private set; }
         // public List<AttackDie> Attack { get; private set; }
-        public virtual List<Abillity> Abillities { get; set; }
+        public virtual List<Ability> Abilities { get; set; }
         public bool Alive { get { return (this.Health == 0); } }
         
         public Unit(string name, int move, int health, AttackDice attack,
@@ -45,30 +45,30 @@ namespace DescentCore.Units {
             MaxHealth = Health = health;
             this.AttackDice = attack;
             this.DefenceDice = defence;
-            Abillities = new List<Abillity>();
+            Abilities = new List<Ability>();
         }
 
         // public int MeleAttack(Unit enemy) {
             // return RangedAttack(enemy, 1);
         // }
 // 
-        public int Attack(Unit enemy, int range=1, bool resetAbillities=true) {
+        public int Attack(Unit enemy, int range=1, bool resetAbilities=true) {
             // AttackResolver ar = new AttackResolver(this.AttackDice, enemy.DefenceDice, 
-                                                   // this.Abillities);
+                                                   // this.Abilities);
             // int damage = ar.RollDamage(range=range);
             var dice = new Dice.Dice(this.AttackDice, enemy.DefenceDice);
             DiceOutcome roll = dice.Roll();
             int damage = this.ResolveSurges(roll, range);
             // int damage = this.RollDamage(range);
             enemy.Health -= damage;
-            if (resetAbillities) {
-                this.ResetAbillities();
+            if (resetAbilities) {
+                this.ResetAbilities();
             }
             return damage;
         }
 
-        public void ResetAbillities() {
-            this.Abillities.ForEach(a => a.Used = false);
+        public void ResetAbilities() {
+            this.Abilities.ForEach(a => a.Used = false);
         }
         
         public int[] DamageHistogram(int range) {
@@ -80,10 +80,10 @@ namespace DescentCore.Units {
                 return 0;
             }
 
-            // 1. apply all "free abillities"
-            foreach (Abillity abillity in this.Abillities) {
-                if (abillity.SurgePrice == 0) {
-                    dice.UseAbillity(abillity);
+            // 1. apply all "free abilities"
+            foreach (Ability ability in this.Abilities) {
+                if (ability.SurgePrice == 0) {
+                    dice.UseAbility(ability);
                 }
             }
             
@@ -103,8 +103,8 @@ namespace DescentCore.Units {
         protected void UseSurges(DiceOutcome dice) {
             while (dice.Surge > 0) {
                 // Does Max raise an error if the list is empty or return zero???
-                var rankedAbillities = 
-                        from a in this.Abillities 
+                var rankedAbilities = 
+                        from a in this.Abilities 
                         where !a.Used && dice.Surge >= a.SurgePrice
                         let ar = a.PotentialDamage(dice.Defence)
                         // most damage/surge, tiebreak on defence
@@ -112,35 +112,35 @@ namespace DescentCore.Units {
                                 ar.Attack.Power descending, 
                                 ar.Defence.Shield descending
                         select a;
-                if (!rankedAbillities.Any()) {
+                if (!rankedAbilities.Any()) {
                     break;
                 } else {
-                    Abillity best = rankedAbillities.First();
-                    dice.UseAbillity(best);
+                    Ability best = rankedAbilities.First();
+                    dice.UseAbility(best);
                 }
             }
         }
 
         protected void IncreaseRange(DiceOutcome dice, int range) {
             while (dice.Surge > 0 && dice.Range < range) {
-                var rangeAbillities = (from a in this.Abillities 
-                                    where (!a.Used && a.Type == AbillityType.Range &&
+                var rangeAbilities = (from a in this.Abilities 
+                                    where (!a.Used && a.Type == AbilityType.Range &&
                                             a.SurgePrice <= dice.Surge)
                                     select a).ToList();
-                Abillity perfect = (from a in rangeAbillities  
+                Ability perfect = (from a in rangeAbilities  
                                     where (a.Val + dice.Range >= range)
                                     orderby a.SurgePrice 
                                     select a).FirstOrDefault();
                 if (perfect != null) {
-                    dice.UseAbillity(perfect);
+                    dice.UseAbility(perfect);
                     break;
                 } 
-                Abillity best = (from a in rangeAbillities  
+                Ability best = (from a in rangeAbilities  
                                  where dice.Surge >= a.SurgePrice
                                  orderby (float) a.Val / a.SurgePrice
                                  select a).FirstOrDefault();
                 if (best != null) {
-                    dice.UseAbillity(best);
+                    dice.UseAbility(best);
                 } else {
                     dice.Hit = false;
                     break;
@@ -205,10 +205,10 @@ namespace DescentCore.Units {
                 return defence;
             }
         }
-        public override List<Abillity> Abillities {
+        public override List<Ability> Abilities {
             get {
-                // TODO Hero Abillity + Class Abillities
-                return this.Equipment.GetAbillities();
+                // TODO Hero Ability + Class Abilities
+                return this.Equipment.GetAbilities();
             }
         }
 

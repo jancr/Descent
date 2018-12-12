@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using DescentCore.Abillites;
+using DescentCore.Abilites;
 using DescentCore.Exceptions;
 
 namespace DescentCore.Dice {
@@ -158,30 +158,45 @@ namespace DescentCore.Dice {
     ////////////////////////////////////////
     // die class and subclasses
     ////////////////////////////////////////
-    public abstract class Die {
+    public abstract class Die<T> where T: DieFace {
+        public abstract T[] Faces { get; protected set; }
         protected Random rand = new Random();
-        // public Roll();
 
+        public T Roll() {
+            return Faces[rand.Next(0, Faces.Length)];
+        }
         // public ToDistrubution() {
             // raise NotImplemented();
         // }
     }
+    public abstract class AttackDie: Die<AttackDieFace> { }
+    public abstract class DefenceDie: Die<DefenceDieFace> { }
 
-    public abstract class AttackDie: Die {
-        public AttackDieFace[] faces;
 
-        public AttackDieFace Roll() {
-            return faces[rand.Next(0, faces.Length)];
-        }
-    }
-
-    public abstract class DefenceDie: Die {
-        public DefenceDieFace[] faces;
-
-        public DefenceDieFace Roll() {
-            return faces[rand.Next(0, faces.Length)];
-        }
-    }
+    // public abstract class Die {
+        // protected Random rand = new Random();
+        // // public Roll();
+// 
+        // // public ToDistrubution() {
+            // // raise NotImplemented();
+        // // }
+    // }
+// 
+    // public abstract class AttackDie: Die {
+        // public AttackDieFace[] faces;
+// 
+        // public AttackDieFace Roll() {
+            // return faces[rand.Next(0, faces.Length)];
+        // }
+    // }
+// 
+    // public abstract class DefenceDie: Die {
+        // public DefenceDieFace[] faces;
+// 
+        // public DefenceDieFace Roll() {
+            // return faces[rand.Next(0, faces.Length)];
+        // }
+    // }
 
 
     // Attack Dice
@@ -403,21 +418,21 @@ namespace DescentCore.Dice {
             this.Attack = AttackDieFace.Mis();
         }
 
-        public void UseAbillity(Abillity abillity) {
-            if (abillity.SurgePrice > this.Surge) {
-                throw new AbillityException("Not Enugh Surges to Use Abillity");
+        public void UseAbility(Ability ability) {
+            if (ability.SurgePrice > this.Surge) {
+                throw new AbilityException("Not Enugh Surges to Use Ability");
             }
-            this.Surge -= abillity.SurgePrice;
-            abillity.Used = true;
-            switch(abillity.Type) {
-                case AbillityType.Damage:
-                    this.Power += abillity.Val;
+            this.Surge -= ability.SurgePrice;
+            ability.Used = true;
+            switch(ability.Type) {
+                case AbilityType.Damage:
+                    this.Power += ability.Val;
                     break;
-                case AbillityType.Pierce:
-                    this.Shield -= abillity.Val;
+                case AbilityType.Pierce:
+                    this.Shield -= ability.Val;
                     break;
-                case AbillityType.Range:
-                    this.Range += abillity.Val;
+                case AbilityType.Range:
+                    this.Range += ability.Val;
                     break;
             }
         }
