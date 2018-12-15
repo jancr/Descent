@@ -119,6 +119,56 @@ namespace DescentCoreCore.UnitTest {
         
     public class DescentCore_Equipment {
         [Fact]
+        public void TestAbillity() {
+            // many items have abillities, make sure their comparasons work!
+            var b = new Ability(3, AbilityType.Damage, 2); 
+            var c = new Ability(3, AbilityType.Damage, 2);
+            Assert.Equal(b, c);
+        }
+
+        [Fact]
+        public void TestDie() {
+            var grey1 = new GreyDie();
+            var grey2 = new GreyDie();
+            Assert.Equal(grey1, grey2);
+        }
+
+        [Fact]
+        public void TestArmor() {
+            var armor1 = new ArmorItem("Chainmail", new DefenceDice("grey"),
+                ItemCatagory.HeavyArmor, new Ability[0]);
+            var armor2 = new ArmorItem("Chainmail", new DefenceDice("grey"),
+                ItemCatagory.HeavyArmor, new Ability[0]);
+            Assert.Equal(armor1, armor2);
+        }
+
+        [Fact]
+        public void TestWeopon() {
+            Ability[] a = new Ability[] {
+                    new Ability(1, AbilityType.Range, 0, 0),
+                    new Ability(1, AbilityType.Damage, 1, 0),
+                    new Ability(1, AbilityType.Pierce, 1, 0), };
+            var mainHand1 = new WeoponItem(
+                    "Iron Spear", new AttackDice("blue", "yellow"), 
+                    HandCatagory.MeleeWeopon, a,
+                    new ItemCatagory[] { ItemCatagory.Exotic }, 1);
+            var mainHand2 = new WeoponItem(
+                    "Iron Spear", new AttackDice("blue", "yellow"), 
+                    HandCatagory.MeleeWeopon, a,
+                    new ItemCatagory[] { ItemCatagory.Exotic }, 1);
+            Assert.Equal(mainHand1, mainHand2);
+        }
+
+        [Fact]
+        public void TestTrinket() {
+            Ability[] a = new Ability[] { new Ability(1, AbilityType.Range, 0, 0) };
+            var helmet = new ItemCatagory[] { ItemCatagory.Helmet };
+            var trinket1 = new TrinketItem("Scorpion Helmet", helmet, a);
+            var trinket2 = new TrinketItem("Scorpion Helmet", helmet, a);
+            Assert.Equal(trinket1, trinket2);
+        }
+
+        [Fact]
         public void TestGearFactory() {
             Ability[] a;
             var gf = new GearFactory("ActI");
@@ -138,7 +188,6 @@ namespace DescentCoreCore.UnitTest {
 
             var armor = new ArmorItem("Chainmail", new DefenceDice("grey"),
                 ItemCatagory.HeavyArmor, new Ability[0]);
-            Assert.Equal(armor, gf.Armor[0]);
 
             a = new Ability[] { new Ability(1, AbilityType.Range, 0, 0) };
             var helmet = new ItemCatagory[] { ItemCatagory.Helmet };

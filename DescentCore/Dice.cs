@@ -45,7 +45,7 @@ namespace DescentCore.Dice {
         private int _surge = 0;
         private int _range = 0;
         private bool _hit = true;
-        
+
         public AttackDieFace(int power=0, int surge=0, int range=0,
                              bool hit=true) {
             this.Hit = hit;
@@ -102,6 +102,20 @@ namespace DescentCore.Dice {
             return new AttackDieFace(this.Power, this.Surge, this.Range, 
                                      this.Hit);
         }
+
+        public override bool Equals(object obj) {
+            AttackDieFace other = obj as AttackDieFace;
+            if (other != null) {
+                return ((this.Hit == other.Hit) && (this.Power == other.Power) && 
+                    (this.Surge == other.Surge) && (this.Range == other.Range));
+            }
+            return false;
+        }
+
+        public override int GetHashCode() {
+            return (Hit.GetHashCode() ^ Power ^ Surge ^ Range);
+        }
+        
     }
 
     public class DefenceDieFace : DieFace {
@@ -152,6 +166,19 @@ namespace DescentCore.Dice {
         public DefenceDieFace Clone() {
             return new DefenceDieFace(this.Shield);
         }
+
+        public override bool Equals(object obj) {
+            DefenceDieFace other = obj as DefenceDieFace;
+            if (other != null) {
+                return this.Shield == other.Shield;
+            }
+            return false;
+        }
+
+        public override int GetHashCode() {
+            return this.Shield;
+        }
+        
     }
     
 
@@ -159,11 +186,27 @@ namespace DescentCore.Dice {
     // die class and subclasses
     ////////////////////////////////////////
     public abstract class Die<T> where T: DieFace {
-        public abstract T[] Faces { get; protected set; }
+        public T[] Faces { get; protected set; }
         protected Random rand = new Random();
 
         public T Roll() {
             return Faces[rand.Next(0, Faces.Length)];
+        }
+
+        public override bool Equals(object obj) {
+            Die<T> other = obj as Die<T>;
+            if (other != null) {
+                return this.Faces.SequenceEqual(other.Faces);
+            }
+            return false;
+        }
+
+        public override int GetHashCode() {
+            int hash = 0;
+            foreach(T face in this.Faces) { 
+                hash ^= face.GetHashCode();
+            }
+            return hash;
         }
         // public ToDistrubution() {
             // raise NotImplemented();
@@ -202,7 +245,7 @@ namespace DescentCore.Dice {
     // Attack Dice
     public class PowerDie: AttackDie {
         public PowerDie() {
-            this.faces = new AttackDieFace[] {
+            this.Faces = new AttackDieFace[] {
                 new AttackDieFace(1),
                 new AttackDieFace(2),
                 new AttackDieFace(2),
@@ -215,7 +258,7 @@ namespace DescentCore.Dice {
 
     public class YellowDie: AttackDie {
         public YellowDie() {
-            this.faces = new AttackDieFace[] {
+            this.Faces = new AttackDieFace[] {
                 new AttackDieFace(0, 1, 1),
                 new AttackDieFace(1, 0, 1),
                 new AttackDieFace(1, 0, 2),
@@ -228,7 +271,7 @@ namespace DescentCore.Dice {
 
     public class GreenDie: AttackDie {
         public GreenDie() {
-            this.faces = new AttackDieFace[] {
+            this.Faces = new AttackDieFace[] {
                 new AttackDieFace(1, 0, 0),
                 new AttackDieFace(0, 1, 0),
                 new AttackDieFace(0, 1, 1),
@@ -241,7 +284,7 @@ namespace DescentCore.Dice {
 
     public class BlueDie: AttackDie {
         public BlueDie() {
-            this.faces = new AttackDieFace[] {
+            this.Faces = new AttackDieFace[] {
                 new AttackDieFace(0, 0, 0, false),
                 new AttackDieFace(2, 1, 2),
                 new AttackDieFace(2, 0, 3),
@@ -255,7 +298,7 @@ namespace DescentCore.Dice {
     // Defence Dice
     public class BrownDie: DefenceDie {
         public BrownDie() {
-            this.faces = new DefenceDieFace[] {
+            this.Faces = new DefenceDieFace[] {
                 new DefenceDieFace(0), new DefenceDieFace(0), 
                 new DefenceDieFace(0), new DefenceDieFace(1),
                 new DefenceDieFace(1), new DefenceDieFace(2)
@@ -265,7 +308,7 @@ namespace DescentCore.Dice {
 
     public class GreyDie: DefenceDie {
         public GreyDie() {
-            this.faces = new DefenceDieFace[] {
+            this.Faces = new DefenceDieFace[] {
                 new DefenceDieFace(0), new DefenceDieFace(1),
                 new DefenceDieFace(1), new DefenceDieFace(1),
                 new DefenceDieFace(2), new DefenceDieFace(3),
@@ -275,7 +318,7 @@ namespace DescentCore.Dice {
 
     public class BlackDie: DefenceDie {
         public BlackDie() {
-            this.faces = new DefenceDieFace[] {
+            this.Faces = new DefenceDieFace[] {
                 new DefenceDieFace(0), new DefenceDieFace(2),
                 new DefenceDieFace(2), new DefenceDieFace(2),
                 new DefenceDieFace(3), new DefenceDieFace(4)

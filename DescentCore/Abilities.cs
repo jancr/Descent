@@ -29,6 +29,24 @@ namespace DescentCore.Abilites {
         public int StaminaPrice { get; private set; }
         public bool Used { get; set; } = false;
 
+        public override bool Equals(object obj) {
+            Ability other = obj as Ability;
+            if (other != null) {
+                if ((this.Val == other.Val) && (this.Type == other.Type) &&
+                        (this.SurgePrice == other.SurgePrice) &&
+                        (this.StaminaPrice == other.StaminaPrice)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public override int GetHashCode() {
+            return (Val.GetHashCode() ^ Type.GetHashCode() ^
+                    SurgePrice.GetHashCode() ^ StaminaPrice.GetHashCode() ^
+                    Used.GetHashCode());
+        }
+
         // helper fields
         private Regex abilityRegex = new Regex(@"(\d+)([LS]?):(\d+)([DPR])");
 
@@ -39,6 +57,7 @@ namespace DescentCore.Abilites {
             this.SurgePrice = surgePrice;
             this.StaminaPrice = staminaPrice;  // not fully implemented
         }
+
         public Ability(string abilityString) {
             Match m = abilityRegex.Match(abilityString);
             if (m.Success) {

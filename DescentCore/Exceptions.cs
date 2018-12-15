@@ -11,10 +11,10 @@ namespace DescentCore.Exceptions {
             : base(message, inner) { }
     }
 
-    public class AbillityException: Exception { 
-        public AbillityException() { }
-        public AbillityException(string message) : base(message) { }
-        public AbillityException(string message, Exception inner) 
+    public class AbilityException: Exception { 
+        public AbilityException() { }
+        public AbilityException(string message) : base(message) { }
+        public AbilityException(string message, Exception inner) 
             : base(message, inner) { }
     }
 

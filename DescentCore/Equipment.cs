@@ -238,13 +238,36 @@ namespace DescentCore.Equipment {
             this.Abilities = abilities;
             this.Catagories = catagories;
         }
-        public override string ToString() {
-            return $"{base.ToString()}: {{ Name = {Name}, Type = {Type}," +
-                   $"Abilities = {Abilities}" + $"Categories = {Catagories} }}";
-        }
+        // public override string ToString() {
+            // return $"{base.ToString()}: {{ Name = {Name}, Type = {Type}," +
+                   // $"Abilities = {Abilities}" + $"Categories = {Catagories} }}";
+        // }
+        //
         public override bool Equals(object obj) {
-            return this.ToString() == obj.ToString();
+            Item other = obj as Item;
+            if (other != null) {
+                if ((this.Abilities.SequenceEqual(other.Abilities)) &&
+                        (this.Catagories.SequenceEqual(other.Catagories)) &&
+                        (this.Name == other.Name) && (this.Type == other.Type)) {
+                    return true;
+                }
+            }
+            return false;
         }
+
+        public override int GetHashCode() {
+            int hash = (Name.GetHashCode() ^ Type.GetHashCode());
+            foreach (var ability in Abilities) {
+                hash ^= ability.GetHashCode();
+            } foreach (var category in Catagories) {
+                hash ^=category.GetHashCode();
+            }
+            return hash;
+        }
+
+        // public override int GetHashCode() {
+            // return ToString().GetHashCode()
+        // }
     }
 
     public class EvilArtefactItem : Item {
@@ -268,9 +291,21 @@ namespace DescentCore.Equipment {
                     new ItemCatagory[1] { armorType }) {
             this.DefenceDice = defence;
         }
-        public override string ToString() {
-            return $"{base.ToString().TrimEnd('}')} DefenceDice = {DefenceDice}";
+        public override bool Equals(object obj) {
+            ArmorItem other = obj as ArmorItem;
+            if ((other != null) && (base.Equals(obj))) {
+                return this.DefenceDice.SequenceEqual(other.DefenceDice);
+            }
+            return false;
         }
+        public override int GetHashCode() {
+            int hash = base.GetHashCode();
+            this.DefenceDice.ForEach(die => hash = hash ^ die.GetHashCode());
+            return hash;
+        }
+        // public override string ToString() {
+            // return $"{base.ToString().TrimEnd('}')} DefenceDice = {DefenceDice}";
+        // }
     }
 
     ////////////////////////////////////////
@@ -287,9 +322,20 @@ namespace DescentCore.Equipment {
             this.HandType = handType;
             this.Hands = hands;
         }
-        public override string ToString() {
-            return $"{base.ToString().TrimEnd('}')} HandType = {HandType} " +
-                   $"Hands = {Hands}";
+        // public override string ToString() {
+            // return $"{base.ToString().TrimEnd('}')} HandType = {HandType} " +
+                   // $"Hands = {Hands}";
+        // }
+        public override bool Equals(object obj) {
+            HandItem other = obj as HandItem;
+            if ((other != null) && (base.Equals(obj))) {
+                return ((this.Hands == other.Hands) && 
+                        (this.HandType == other.HandType));
+            }
+            return false;
+        }
+        public override int GetHashCode() {
+            return base.GetHashCode() ^ Hands ^ HandType.GetHashCode();
         }
     }
 
@@ -307,8 +353,21 @@ namespace DescentCore.Equipment {
                 : base(name, abilities, catagories, weoponType, hands) {
             this.AttackDice = attack;
         }
-        public override string ToString() {
-            return $"{base.ToString().TrimEnd('}')} AttackDice = {AttackDice}";
+        // public override string ToString() {
+            // return $"{base.ToString().TrimEnd('}')} AttackDice = {AttackDice}";
+        // }
+
+        public override bool Equals(object obj) {
+            WeoponItem other = obj as WeoponItem;
+            if ((other != null) && (base.Equals(obj))) {
+                return this.AttackDice.SequenceEqual(other.AttackDice);
+            }
+            return false;
+        }
+        public override int GetHashCode() {
+            int hash = base.GetHashCode();
+            this.AttackDice.ForEach(die => hash = hash ^ die.GetHashCode());
+            return hash;
         }
     }
 }
