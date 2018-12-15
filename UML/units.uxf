@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>580</x>
+      <y>350</y>
+      <w>370</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>/Unit/
+--
++Move: int
++Health: int
++MaxHealth: int
++Name: string
++AttackDice: AttackDice
++DefenceDice: DefenceDice
++Abilities: List&lt;Ability&gt;
++Alive: bool
+--
++&lt;&lt;constructor&gt;&gt; Unit(name: string,
+    move: int, health: int, attack: AttackDice)
++Attack(enemy: Unit, range: int, 
+    resetAbilities: bool): int 
++ResetAbilities() {
++ResolveSurges(dice: DiceOutcome, range: int): int
+#UseSurges(dice: DiceOutcome)
+#IncreaseRange(dice: DiceOutcome, range: int)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>690</y>
+      <w>260</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Monster
+--
++&lt;&lt;constructor&gt;&gt; Unit(name: string,
+    move: int, health: int, 
+    attack: AttackDice,
+    defence: DefenceDice)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1280</x>
+      <y>350</y>
+      <w>260</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>Hero
+--
++BaseDefence: DefenceDice
++Stamina: int
++MaxStamina: int
++XP: int
++Equipment: EquipedItems
++AttackDice: AttackDice
++DefenceDice: DefenceDice
++Abilities: List&lt;Ability&gt;
+--
++&lt;&lt;constructor&gt;&gt; Hero(name: string, 
+    move: int, health: int, stamina: int,
+    defence: DefenceDice, might: int,
+    knowledge: int, willpower: int,
+    awareness: int, xp: int) 
++Equip(item: Item)
++UnEquip(item: Item)
+    </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>350</y>
+      <w>240</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>/EliteUnit/
+--
++Might: int
++Knowledge: int
++Willpower: int
++Awareness: int
+--
++&lt;&lt;constructor&gt;&gt; EliteUnit(
+    name: string,
+    move: int, health: int, 
+    attack: AttackDice, 
+    defence: DefenceDice, 
+    might: int, knowledge: int,
+    willpower: int, awareness: int)
+    </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>610</y>
+      <w>240</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>Henchmen
+--
++EvilItem: EvilArtefactItem
+--
++&lt;&lt;constructor&gt;&gt; Henchmen(
+    name: string, move: int, 
+    health: int, stamina: int, 
+    attack: AttackDice,
+    defence: DefenceDice, 
+    might: int, knowledge: int,
+    willpower: int, awareness: int)
+    </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>750</x>
+      <y>640</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>940</x>
+      <y>450</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1100</x>
+      <y>550</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1220</x>
+      <y>450</y>
+      <w>80</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>250</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>EquipmentType &lt;&lt;enum&gt;&gt;
+--
+Hand, Armor, Trinket, Evil
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>570</y>
+      <w>240</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>EquipedItems
+--
++UsedHands: int
++MainHand: WeoponItem
++OffHand: ShieldItem
++Armor: ArmorItem
++Trinket: List&lt;TrinketItem&gt;
+--
+&lt;&lt;constructor&gt;&gt; EquipedItems()
++GetAbilities: List&lt;Ability&gt;
++IterItems: IEnumerable&lt;Item&gt;
++Equip(item: Item)
++UnEquip(item: Item) 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>570</y>
+      <w>470</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>GearFactory
+--
++MainHand: List&lt;WeoponItem&gt;
++OffHand: List&lt;ShieldItem&gt;
++Armor: List&lt;ArmorItem&gt;
++Trinket: List&lt;TrinketItem&gt;
+--
+&lt;&lt;constructor&gt;&gt; GearFactory(source: string)
++IterFile(source: string, fileName: string): IEnumerable&lt;string[]&gt; 
+-IterArmors(source: string): IEnumerable&lt;ArmorItem&gt; 
+-IterMainHand(source: string): IEnumerable&lt;WeoponItem&gt; 
+-IterOffHand(source: string): IEnumerable&lt;ShieldItem&gt; 
+-IterTrinket(source: string): IEnumerable&lt;TrinketItem&gt; 
+-ParseCatagories(catagories: string): ItemCatagory[] 
+-ParseAbilities(abilityString: string): Ability[] 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>380</x>
+      <y>230</y>
+      <w>310</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>Item
+--
++Abilities: Ability[]
++Catagories: ItemCatagory[]
++Type: EquipmentType
++Name: string
+--
+&lt;&lt;constructor&gt;&gt; Item(name: string, 
+	type: EquipmentType, abilities: Ability[],
+	catagories: ItemCatagory[])
++ToString(): string
++Equals(obj: object): bool
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>120</y>
+      <w>230</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>ItemCategory &lt;&lt;enum&gt;&gt;
+--
+Bow, Exotic, Blade, Book, 
+Staff, Shield, Hammer, 
+LightArmor, MediumArmor,
+HeavyArmor, Cloak, Trinket, 
+Magic, Rune, Axe, Helmet, Ring
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>320</y>
+      <w>230</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>HandCategory &lt;&lt;enum&gt;&gt;
+--
+MeleeWeopon, RangeWeopon,
+Shield,
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>380</x>
+      <y>120</y>
+      <w>240</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>EvilArtefactItem
+--
+&lt;&lt;constructor&gt;&gt; EvilArtefactItem(
+    name: string, abilities: Ability[],
+    catagories: ItemCatagory[])
+
+    </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>710</x>
+      <y>120</y>
+      <w>240</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>TrinketItem
+--
+&lt;&lt;constructor&gt;&gt; TrinkeTItem(
+    name: string, 
+    catagories: ItemCatagory[], 
+    abilities: Ability[])
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>720</x>
+      <y>250</y>
+      <w>230</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>ArmorItem
+--
++DefenceDice: DefenceDice
+--
+&lt;&lt;constructor&gt;&gt; ArmorItem(
+    name: string,
+    defence: DefenceDice,
+    armortype: ItemCatagory,
+    abilities: Ability[])
++ToSting(): string
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>380</x>
+      <y>440</y>
+      <w>310</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>HandItem
+--
+&lt;&lt;constructor&gt;&gt; HandItem(name: string,
+    abilities: Ability[], 
+    catagories: ItemCatagory[],
+    handType: HandCategory, hands: int)
+--
++ToString(): string
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>720</x>
+      <y>440</y>
+      <w>230</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>ShieldItem
+--
+&lt;&lt;constructor&gt;&gt; ShieldItem(
+    name: string,
+    abilities: Ability[])
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>430</y>
+      <w>220</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>WeoponItem
+--
++AttackDice: AttackDice
+--
+&lt;&lt;constructor&gt;&gt; ArmorItem(name: string,
+    attack: AttackDice, weoponType: HandCatagory.
+    abilities: Ability[], catagories: ItemCatagory[],
+    hands: int)
++ToString(): string
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>190</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>160</y>
+      <w>90</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>680</x>
+      <y>320</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>400</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>490</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>680</x>
+      <y>480</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

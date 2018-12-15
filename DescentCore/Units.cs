@@ -12,7 +12,7 @@ namespace DescentCore.Units {
     //////////////////////////////////////////////////////////////////////
     // The Base class for all Heros and Monsters
     //////////////////////////////////////////////////////////////////////
-    public class Unit {
+    public abstract class Unit {
         // attributes
         private int health;
 
@@ -48,22 +48,14 @@ namespace DescentCore.Units {
             Abilities = new List<Ability>();
         }
 
-        // public int MeleAttack(Unit enemy) {
-            // return RangedAttack(enemy, 1);
-        // }
-// 
-        public int Attack(Unit enemy, int range=1, bool resetAbilities=true) {
-            // AttackResolver ar = new AttackResolver(this.AttackDice, enemy.DefenceDice, 
-                                                   // this.Abilities);
-            // int damage = ar.RollDamage(range=range);
+        public int Attack(Unit enemy, int range=1) {
             var dice = new Dice.Dice(this.AttackDice, enemy.DefenceDice);
             DiceOutcome roll = dice.Roll();
             int damage = this.ResolveSurges(roll, range);
-            // int damage = this.RollDamage(range);
             enemy.Health -= damage;
-            if (resetAbilities) {
-                this.ResetAbilities();
-            }
+            // if (resetAbilities) {
+            this.ResetAbilities();
+            // }
             return damage;
         }
 
@@ -156,7 +148,7 @@ namespace DescentCore.Units {
     }
 
 
-    public class EliteUnit : Unit {
+    public abstract class EliteUnit : Unit {
         // properties
         public int Might { get; private set; }
         public int Knowledge { get; private set; }
@@ -227,13 +219,8 @@ namespace DescentCore.Units {
             // TODO: make class stuff
         }
         
-        public void Equip(Item item) {
-            Equipment.Equip(item);
-        }
-
-        public void UnEquip(Item item) {
-            Equipment.UnEquip(item);
-        }
+        public void Equip(Item item) => Equipment.Equip(item);
+        public void UnEquip(Item item) => Equipment.UnEquip(item);
 
         // public void Equip(EquipmentType type) {
             // Equipment.Equip(type, this);

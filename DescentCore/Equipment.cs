@@ -50,9 +50,7 @@ namespace DescentCore.Equipment {
         public List<Ability> GetAbilities() {
             var gearAbilities = new List<Ability>();
             foreach(Item item in this.IterItems()) {
-                // Console.WriteLine($"T: {item.Name}");
                 foreach(Ability itemAbility in item.Abilities) {
-                    // Console.WriteLine($" - Ability: {itemAbility}");
                     gearAbilities.Add(itemAbility);
                 }
             }
@@ -287,7 +285,7 @@ namespace DescentCore.Equipment {
                         int hands) : base(name, EquipmentType.Hand, 
                                           abilities, catagories) {
             this.HandType = handType;
-            this.Hands = 1;
+            this.Hands = hands;
         }
         public override string ToString() {
             return $"{base.ToString().TrimEnd('}')} HandType = {HandType} " +

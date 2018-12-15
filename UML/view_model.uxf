@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>920</x>
+      <y>330</y>
+      <w>360</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>/ItemViewModel&lt;T&gt;/
+--
++PropertyChanged: PropertyChangedEventHandler 
++ItemNames: ObservableCollection&gt;string&gt;&lt;
++SelectedIndex: int
+#hero: Hero
+#Dictionary nameToItem: &lt;string, T&gt;
+#Dictionary itemToName: &lt;T, string&gt;
+#equipedItem: T 
+-setupFlag: bool
+--
++&lt;&lt;constructor&gt;&gt; ItemViewModel() 
+/#GetItems(): List&lt;T&gt;/
+/#GetEquipedItem(): T/
+-SwitchItem(newIndex: int) 
+#OnPropertyChanged(propertyName: string)
+    </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>420</y>
+      <w>230</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>MainHandItemViewModel
+--
+#GetEqupedItems: WeoponItem
+#GetItems: List&lt;WeoponItem&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1340</x>
+      <y>340</y>
+      <w>220</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>TrinketItem2ViewModel
+--
+#GetEqupedItems: TrinketItem
+#GetItems: List&lt;TrinketItem&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1340</x>
+      <y>450</y>
+      <w>220</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>TrinketItem1ViewModel
+--
+#GetEqupedItems: TrinketItem
+#GetItems: List&lt;TrinketItem&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>510</y>
+      <w>230</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>OffHandItemViewModel
+--
+#GetEqupedItems: ShieldItem
+#GetItems: List&lt;ShieldItem&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>850</x>
+      <y>440</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>850</x>
+      <y>530</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1270</x>
+      <y>360</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>260</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes> INotifyPropertyChanged</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1080</x>
+      <y>280</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>310</y>
+      <w>230</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>MainHandItemViewModel
+--
+#GetEqupedItems: WeoponItem
+#GetItems: List&lt;WeoponItem&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>850</x>
+      <y>330</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1270</x>
+      <y>470</y>
+      <w>90</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

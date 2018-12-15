@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>200</x>
-      <y>220</y>
+      <x>100</x>
+      <y>230</y>
       <w>290</w>
       <h>130</h>
     </coordinates>
@@ -24,8 +24,8 @@ AbillityResult
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>260</x>
-      <y>140</y>
+      <x>160</x>
+      <y>150</y>
       <w>180</w>
       <h>60</h>
     </coordinates>
@@ -38,14 +38,14 @@ Damage, Pierce, Range</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>510</x>
-      <y>130</y>
+      <x>410</x>
+      <y>140</y>
       <w>430</w>
       <h>230</h>
     </coordinates>
     <panel_attributes>Abillity : ICloneable 
 --
-+Val: int
+Val: int
 +Type: AbillityType
 +SurgePrice: int
 +StaminaPrice: int
