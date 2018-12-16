@@ -9,16 +9,13 @@ using DescentCore.Dice;
 using DescentCore.Abilites;
 using DescentCore.Equipment;
 
-namespace DescentCoreCore.UnitTest {
-    // high level test, other test should have been written first!!!
+namespace DescentTest.UnitTest {
     public class DescentCore_AttackResolver {
 
         public static Hero GetLeoric() {
             var defence = new DefenceDice(new GreyDie());
             var leoric = new Hero("Leoric", 4, 8, 5, defence, 1, 5, 3, 2, 0);
 
-            // make item
-            // var attack = new AttackDice{ new BlueDie(), new PowerDie(), new YellowDie() };
             var attack = new AttackDice("blue", "power", "yellow");
             var abilities = new Ability[] { 
                 new Ability(3, AbilityType.Damage, 2), 
@@ -46,11 +43,8 @@ namespace DescentCoreCore.UnitTest {
             return whiteGoblin;
         }
 
-        public static IEnumerable<object[]> 
-        // public static IEnumerable<(AttackDieFace, DefenceDieFace, int, int)> 
-            GetResolveSurgesData(int numTests) {
+        public static IEnumerable<object[]> GetResolveSurgesData(int numTests) {
             var allData = new List<object[]> {
-            // var allData = new List<(AttackDieFace, DefenceDieFace, int, int)> {
 
                 // shield tests
                 new object[] { new AttackDieFace(5, 0, 5), 
@@ -89,17 +83,12 @@ namespace DescentCoreCore.UnitTest {
         }
 
         [Theory]
-        // [MemberData(nameof(GetResolveSurgesData), parameters: 1)]
-        // [MemberData(nameof(GetResolveSurgesData), parameters: 6)]
         [MemberData(nameof(GetResolveSurgesData), parameters: 12)]
         public void ResolveSurges(AttackDieFace attackRoll, 
                                   DefenceDieFace defenceRoll, int range,
                                   int expectedDamage) {
             Hero leoric = GetLeoric();
 
-            // whiteGoblin = this.GetWhiteGoblinActII();
-            // var ar = new AttackResolver(leoric.Abilities);
-            // AttackDieFace attack = ar.ResolveSurges(attackRoll, defenceRoll, range);
             var dice = new DiceOutcome(attackRoll, defenceRoll);
             int damage = leoric.ResolveSurges(dice, range);
             Assert.Equal(expectedDamage, damage);
@@ -120,10 +109,9 @@ namespace DescentCoreCore.UnitTest {
     public class DescentCore_Equipment {
         [Fact]
         public void TestAbillity() {
-            // many items have abillities, make sure their comparasons work!
-            var b = new Ability(3, AbilityType.Damage, 2); 
-            var c = new Ability(3, AbilityType.Damage, 2);
-            Assert.Equal(b, c);
+            var ability1 = new Ability(3, AbilityType.Damage, 2); 
+            var ability2 = new Ability(3, AbilityType.Damage, 2);
+            Assert.Equal(ability1, ability2);
         }
 
         [Fact]

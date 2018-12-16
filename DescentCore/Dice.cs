@@ -216,32 +216,6 @@ namespace DescentCore.Dice {
     public abstract class DefenceDie: Die<DefenceDieFace> { }
 
 
-    // public abstract class Die {
-        // protected Random rand = new Random();
-        // // public Roll();
-// 
-        // // public ToDistrubution() {
-            // // raise NotImplemented();
-        // // }
-    // }
-// 
-    // public abstract class AttackDie: Die {
-        // public AttackDieFace[] faces;
-// 
-        // public AttackDieFace Roll() {
-            // return faces[rand.Next(0, faces.Length)];
-        // }
-    // }
-// 
-    // public abstract class DefenceDie: Die {
-        // public DefenceDieFace[] faces;
-// 
-        // public DefenceDieFace Roll() {
-            // return faces[rand.Next(0, faces.Length)];
-        // }
-    // }
-
-
     // Attack Dice
     public class PowerDie: AttackDie {
         public PowerDie() {
