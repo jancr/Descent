@@ -159,7 +159,8 @@ namespace DescentTest.UnitTest {
         [Fact]
         public void TestGearFactory() {
             Ability[] a;
-            var gf = new GearFactory("ActI");
+            var gfLocal = new GearFactory("ActI", true);
+            var gfRemote = new GearFactory("ActI", false);
 
             a = new Ability[] {
                     new Ability(1, AbilityType.Range, 0, 0),
@@ -169,10 +170,12 @@ namespace DescentTest.UnitTest {
                     "Iron Spear", new AttackDice("blue", "yellow"), 
                     HandCatagory.MeleeWeopon, a,
                     new ItemCatagory[] { ItemCatagory.Exotic }, 1);
-            Assert.Equal(mainHand, gf.MainHand[0]);
+            Assert.Equal(mainHand, gfLocal.MainHand[0]);
+            Assert.Equal(mainHand, gfRemote.MainHand[0]);
 
             var offHand = new ShieldItem("Iron Shield", new Ability[0]);
-            Assert.Equal(offHand, gf.OffHand[0]);
+            Assert.Equal(offHand, gfLocal.OffHand[0]);
+            Assert.Equal(offHand, gfRemote.OffHand[0]);
 
             var armor = new ArmorItem("Chainmail", new DefenceDice("grey"),
                 ItemCatagory.HeavyArmor, new Ability[0]);
@@ -180,7 +183,8 @@ namespace DescentTest.UnitTest {
             a = new Ability[] { new Ability(1, AbilityType.Range, 0, 0) };
             var helmet = new ItemCatagory[] { ItemCatagory.Helmet };
             var trinket = new TrinketItem("Scorpion Helmet", helmet, a);
-            Assert.Equal(trinket, gf.Trinket[0]);
+            Assert.Equal(trinket, gfLocal.Trinket[0]);
+            Assert.Equal(trinket, gfRemote.Trinket[0]);
         }
 
     }
