@@ -76,24 +76,24 @@ namespace DescentApp.ViewModels {
             set {
                 if (selectedIndex != value) {
                     selectedIndex = value;
-                    SwitchItem(selectedIndex);
+                    if (!setupFlag) {
+                        SwitchItem(selectedIndex);
+                    }
                     OnPropertyChanged(nameof(SelectedIndex));
                 }
             }
         }
 
         private void SwitchItem(int newIndex) {
-            if (!setupFlag) {
-                // remove old item
-                if (equipedItem != null) {
-                    hero.UnEquip(equipedItem);
-                }
-                // add new item
-                string newItemName = ItemNames[newIndex];
-                if (newItemName != "No Item") {
-                    T equipedItem = nameToItem[newItemName];
-                    hero.Equip(equipedItem);
-                }
+            // remove old item
+            if (equipedItem != null) {
+                hero.UnEquip(equipedItem);
+            }
+            // add new item
+            string newItemName = ItemNames[newIndex];
+            if (newItemName != "No Item") {
+                T equipedItem = nameToItem[newItemName];
+                hero.Equip(equipedItem);
             }
         }
 

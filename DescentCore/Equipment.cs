@@ -1,6 +1,7 @@
 // core imports
 using System;
 using System.IO;
+using System.Net;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,7 +146,9 @@ namespace DescentCore.Equipment {
         public List<ShieldItem> OffHand { get; private set; }
         public List<ArmorItem> Armor { get; private set; }
         public List<TrinketItem> Trinket { get; private set; }
-        public GearFactory(string source="ActI") {
+        private bool localFlag;
+        public GearFactory(string source="ActI", bool local=true) {
+            localFlag = local;
             Armor = IterArmors(source).ToList();
             MainHand = IterMainHand(source).ToList();
             OffHand = IterOffHand(source).ToList();
@@ -153,9 +156,19 @@ namespace DescentCore.Equipment {
         }
         public IEnumerable<string[]> IterFile(string source, string fileName) {
             string line;
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, 
-                                       "Data", "Items", source, fileName);
-            using (var reader = new StreamReader(path)) {
+            StreamReader reader;
+            if (localFlag) {
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, 
+                                           "Data", "Items", source, fileName);
+                reader = new StreamReader(path);
+            } else {
+                string baseUrl = $"https://raw.githubusercontent.com/jancr/Descent/master/DescentCore/Data/Items/{source}/{fileName}";
+                WebClient client = new WebClient ();
+                Stream data = client.OpenRead(baseUrl);
+                reader = new StreamReader(data);
+            }
+            //using (reader = new StreamReader(path)) {
+            using (reader) {
                 reader.ReadLine();  // skip header
                 while ((line = reader.ReadLine()) != null) {
                     if (line[0] != '#') {

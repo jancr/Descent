@@ -62,6 +62,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\armor.tsv" />
+    <AndroidAsset Include="Assets\main_hand.tsv" />
+    <AndroidAsset Include="Assets\off_hand.tsv" />
+    <AndroidAsset Include="Assets\trinket.tsv" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />

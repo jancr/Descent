@@ -8,7 +8,11 @@ namespace DescentApp {
     public partial class App : Application {
         public App() {
             InitializeComponent();
+            // uncommented because Xmarin does not put the texts in 
+            // the correct folder :(
+
             DependencyService.Register<FileDataStore>();
+            //DependencyService.Register<StaticDataStore>();
             MainPage = new NavigationPage(new MainPage());
         }
 
